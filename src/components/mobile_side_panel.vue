@@ -1,0 +1,55 @@
+<template>
+  <div class="mobile_side_panel">
+    <div>
+      <b-navbar toggleable="lg" type="dark" variant="dark" sticky>
+        <b-navbar-brand href="#"><img src="../assets/images/logo-mi2.png" alt="" class="w-25  d-block"></b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item-dropdown text="手机APP" right>
+              <b-dropdown-item href="#">
+                <img class="mx-auto d-block " src="../assets/images/78c30d4f259ed43ab20e810a522a6249.png">
+                <p class="text-center">扫码领取新人百元礼包</p>
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+            <b-nav-item href="#">个人中心</b-nav-item>
+            <b-nav-item href="#">售后服务</b-nav-item>
+            <b-nav-item href="#">人工客服</b-nav-item>
+            <b-nav-item href="#">购物车</b-nav-item>
+            <b-nav-item href="#">登录/注册</b-nav-item>
+            <b-nav-item href="#" class="bc2top">回到顶部</b-nav-item>
+          </b-navbar-nav>
+
+          <!-- Right aligned nav items -->
+          
+        </b-collapse>
+      </b-navbar>
+    </div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'mobile_side_panel'
+}
+</script>
+
+<style lang="less">
+
+@media (max-width:700px) { 
+  .mobile_side_panel {
+    display: block !important;
+    position: sticky;
+    z-index: 1080;
+    top: 0px;
+  }
+}
+.mobile_side_panel {
+  display: none;
+
+}
+
+</style>

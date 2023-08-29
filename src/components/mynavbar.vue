@@ -12,10 +12,10 @@
                 <div class="nav_menu">
                     <div class="card h-100" v-for="item of lists[selected]">
 
-                        <img class="card-img-top w-75 h-75  w-50 h-50 d-block mx-auto" :src="item.path">
+                        <img class="card-img-top     d-block mx-auto" :src="item.path">
                         <div class="card-body">
                             <p>{{ item.name }}</p>
-                            <p>{{ item.price }}</p>
+                            <p class="card_price">{{ item.price }}</p>
 
                         </div>
                     </div>
@@ -143,6 +143,8 @@ export default {
 
 </script>
 <style lang="less">
+@nav_gray:rgb(224,224,224);
+@menu_min_height:220px;
 .mynavbar {
     position: relative;
     margin: 0 auto;
@@ -164,62 +166,75 @@ export default {
                 color: orange;
 
                 ~.nav_menu {
-                    min-height: 220px;
+                    min-height: @menu_min_height;
+                    border-bottom: 1px solid @nav_gray;
+                    border-top: 1px solid @nav_gray;
+                }
+            }
+
+        }
+            .nav_menu {
+                z-index: 400;
+                display: flex;
+                flex-wrap: wrap;
+                /* display: none; */
+                justify-content: space-around;
+                align-items: center;
+                margin: 0;
+                position: absolute;
+                left: 0px;
+                top: 100%;
+                width: 100%;
+                // width: 100vw;
+                height: 0px;
+                min-height: 0;
+                // min-height: @menu_min_height;
+                overflow: hidden;
+                background: white;
+                transition: .5s;
+                transition-delay: .7s;
+                // box-shadow: 0px 2px 4px rgba(0,0,0,.5);
+                &:hover {
+                    min-height: @menu_min_height;
                     border-bottom: 1px solid rgb(100, 100, 100);
                     border-top: 1px solid rgb(100, 100, 100);
                 }
-            }
-
-        }
-    }
-
-    .nav_menu {
-        z-index: 400;
-        display: flex;
-        flex-wrap: wrap;
-        /* display: none; */
-        justify-content: space-around;
-        align-items: center;
-        margin: 0;
-        position: absolute;
-        left: 0px;
-        top: 100%;
-        width: 100%;
-        height: 0px;
-        min-height: 0;
-        overflow: hidden;
-        background: white;
-        transition: .3s;
-        transition-delay: .3s;
-
-        &:hover {
-            min-height: 220px;
-            border-bottom: 1px solid rgb(100, 100, 100);
-            border-top: 1px solid rgb(100, 100, 100);
-        }
-
-        .card {
-            width: 16.6%;
-            border: none;
-            border-radius: 0;
-
-            .card-body {
-                padding: 0;
-
-                p {
-                    text-align: center;
-                    word-wrap: nowrap;
-                    font-size: 14px;
-                    margin-bottom: 4px;
+        
+                .card {
+                    border: none;
+                    border-radius: 0;
+                    width: 16.6%;
+        
+                    .card-body {
+                        padding: 0;
+        
+                        p {
+                            text-align: center;
+                            word-wrap: nowrap;
+                            font-size: 10px;
+                            margin-bottom: 2px;
+                        }
+                        .card_price {
+                            color: orange;
+                        }
+                    }
+        
+                    .card-img-top {
+                        margin-top: 25px;
+                        // max-height: 55%;
+                        height: 100px;
+                        // width: auto;
+                    }
+                    +.card {
+                        .card-img-top {
+                            border-left: 1px solid @nav_gray;
+                            border-radius: 0;
+                        }
+                    }
                 }
             }
-
-
-            +.card {
-                border-left: 1px solid rgb(100, 100, 100);
-            }
-        }
     }
+
 
     .logo_div {
         img {
@@ -258,6 +273,11 @@ export default {
         p {
             font-size: 8px;
         }
+        img.card-img-top {
+                margin-top: 5px !important;
+                height: 55px !important;
+                // width: auto;
+            }
     }
 
     //   .nav_menu div.card p {

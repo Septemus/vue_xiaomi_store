@@ -1,49 +1,57 @@
 
 <template>
-    <div class="row mynavbar container-xl mx-auto">
-        <div class="col-md-2 p-3  text-white">
-            <div class="logo_div">
-                <img src="../assets/images/logo-mi2.png" alt="" class="img-fluid mx-auto d-block">
+    <div class="mynavbar_outer">
+
+        <div class="row mynavbar container-xl mx-auto">
+            <div class="col-md-2 py-3 px-0  text-white">
+                <div class="logo_div">
+                    <img src="../assets/images/logo-mi2.png" alt="" class="img-fluid  d-block">
+                </div>
+            </div>
+            <div class="col-md-8 p-3  ">
+                <div class="nav_items">
+                    <a href="#" v-for="item, index of nav_items_list" @mouseover="selected = index; staying = true"
+                        @mouseleave="staying = false" :key="index">{{ item }}</a>
+
+
+                </div>
+            </div>
+            <div class="col-md-2 p-3  text-white">
+
+                <div class="search_box">
+                    <input type="text" placeholder="手机" list="search_options"><button><i class="fa fa-search"></i></button>
+                    <datalist id="search_options">
+                        <option>手机</option>
+
+                        <option>笔记本</option>
+
+                        <option>洗衣机</option>
+
+                        <option>台灯</option>
+
+                        <option>路由器</option>
+
+                        <option>插座</option>
+
+                        <option>灯</option>
+
+                        <option>扫地机器人</option>
+                    </datalist>
+
+                </div>
             </div>
         </div>
-        <div class="col-md-8 p-3  ">
-            <div class="nav_items">
-                <a href="#" v-for="item, index of nav_items_list" @mouseover="selected = index">{{ item }}</a>
-                <div class="nav_menu">
-                    <div class="card h-100" v-for="item of lists[selected]">
+        <div class="nav_menu" @mouseover="staying = true" @mouseleave="staying = false" :class="{ 'showing': staying }">
+            <div class="container-xl mx-auto">
+                <div class="card h-100 d-inline-block" v-for="item,index of lists[selected]" :key="index">
 
-                        <img class="card-img-top     d-block mx-auto" :src="item.path">
-                        <div class="card-body">
-                            <p>{{ item.name }}</p>
-                            <p class="card_price">{{ item.price }}</p>
+                    <img class="card-img-top     d-block mx-auto" :src="item.path">
+                    <div class="card-body">
+                        <p>{{ item.name }}</p>
+                        <p class="card_price">{{ item.price }}</p>
 
-                        </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-        <div class="col-md-2 p-3  text-white">
-
-            <div class="search_box">
-                <input type="text" placeholder="手机" list="search_options"><button><i class="fa fa-search"></i></button>
-                <datalist id="search_options">
-                    <option>手机</option>
-
-                    <option>笔记本</option>
-
-                    <option>洗衣机</option>
-
-                    <option>台灯</option>
-
-                    <option>路由器</option>
-
-                    <option>插座</option>
-
-                    <option>灯</option>
-
-                    <option>扫地机器人</option>
-                </datalist>
 
             </div>
         </div>
@@ -132,7 +140,8 @@ export default {
                 }
             ],
             lists: [],
-            selected: 0
+            selected: 0,
+            staying: false
         }
     },
     mounted() {
@@ -143,124 +152,138 @@ export default {
 
 </script>
 <style lang="less">
-@nav_gray:rgb(224,224,224);
-@menu_min_height:220px;
-.mynavbar {
-    position: relative;
-    margin: 0 auto;
-
-    .nav_items {
-        a {
-
-            display: inline-block;
-            /* padding: 10px 20px; */
-            /* margin: 10px; */
-            padding: 0 5px;
-            text-decoration: none;
-            font-size: 20px;
-
-            color: black;
-
-            /* background-color: red; */
-            &:hover {
-                color: orange;
-
-                ~.nav_menu {
-                    min-height: @menu_min_height;
-                    border-bottom: 1px solid @nav_gray;
-                    border-top: 1px solid @nav_gray;
-                }
-            }
-
-        }
-            .nav_menu {
-                z-index: 400;
-                display: flex;
-                flex-wrap: wrap;
-                /* display: none; */
-                justify-content: space-around;
-                align-items: center;
-                margin: 0;
-                position: absolute;
-                left: 0px;
-                top: 100%;
-                width: 100%;
-                // width: 100vw;
-                height: 0px;
-                min-height: 0;
-                // min-height: @menu_min_height;
-                overflow: hidden;
-                background: white;
-                transition: .5s;
-                transition-delay: .7s;
-                // box-shadow: 0px 2px 4px rgba(0,0,0,.5);
-                &:hover {
-                    min-height: @menu_min_height;
-                    border-bottom: 1px solid rgb(100, 100, 100);
-                    border-top: 1px solid rgb(100, 100, 100);
-                }
-        
-                .card {
-                    border: none;
-                    border-radius: 0;
-                    width: 16.6%;
-        
-                    .card-body {
-                        padding: 0;
-        
-                        p {
-                            text-align: center;
-                            word-wrap: nowrap;
-                            font-size: 10px;
-                            margin-bottom: 2px;
-                        }
-                        .card_price {
-                            color: orange;
-                        }
-                    }
-        
-                    .card-img-top {
-                        margin-top: 25px;
-                        // max-height: 55%;
-                        height: 100px;
-                        // width: auto;
-                    }
-                    +.card {
-                        .card-img-top {
-                            border-left: 1px solid @nav_gray;
-                            border-radius: 0;
-                        }
-                    }
-                }
-            }
-    }
-
-
-    .logo_div {
-        img {
-            max-height: 56px;
-        }
-
-        /* width: 100%; */
-
-    }
-
-    .search_box {
-        input[type="text"] {
-            width: 80%;
-            float: left;
-            display: inline-block;
-        }
-
-        button {
-            width: 20%;
-            display: inline-block;
-            float: left;
-        }
-    }
-
-
+@nav_gray: rgb(224, 224, 224);
+@menu_min_height: 220px;
+@nav_fs:17px;
+.showing {
+    min-height: @menu_min_height !important;
+    border-bottom: 1px solid @nav_gray;
+    border-top: 1px solid @nav_gray;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, .5);
 }
+
+.mynavbar_outer {
+    position: relative;
+
+    .nav_menu {
+        z-index: 400;
+        display: flex;
+        flex-wrap: wrap;
+        /* display: none; */
+        justify-content: space-around;
+        align-items: center;
+        margin: 0;
+        position: absolute;
+        // left: 0px;
+        top: 100%;
+        width: 100%;
+        // width: 100vw;
+        height: 0px;
+        min-height: 0;
+        // min-height: @menu_min_height;
+        overflow: hidden;
+        background: white;
+        transition: all .3s;
+        transition-delay: .2s;
+
+
+        // &:hover {
+        //     min-height: @menu_min_height;
+        // }
+
+        .card {
+            border: none;
+            border-radius: 0;
+            width: 16.6%;
+
+            .card-body {
+                padding: 0;
+
+                p {
+                    text-align: center;
+                    word-wrap: nowrap;
+                    font-size: 10px;
+                    margin-bottom: 2px;
+                }
+
+                .card_price {
+                    color: orange;
+                }
+            }
+
+            .card-img-top {
+                margin-top: 25px;
+                // max-height: 55%;
+                height: 100px;
+                // width: auto;
+            }
+
+            +.card {
+                .card-img-top {
+                    border-left: 1px solid @nav_gray;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+
+    .mynavbar {
+        position: relative;
+        margin: 0 auto;
+
+        .nav_items {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            a {
+
+                display: inline-block;
+                /* padding: 10px 20px; */
+                /* margin: 10px; */
+                padding: 0 10px;
+                text-decoration: none;
+                font-size: @nav_fs;
+
+                color: black;
+
+                /* background-color: red; */
+                &:hover {
+                    color: orange;
+                }
+
+            }
+
+
+        }
+
+
+        .logo_div {
+            img {
+                max-height: 56px;
+            }
+
+            /* width: 100%; */
+
+        }
+
+        .search_box {
+            input[type="text"] {
+                width: 80%;
+                float: left;
+                display: inline-block;
+            }
+
+            button {
+                width: 20%;
+                display: inline-block;
+                float: left;
+            }
+        }
+
+
+    }
+}
+
 
 @media (max-width:900px) {
     .nav_menu .card {
@@ -273,15 +296,21 @@ export default {
         p {
             font-size: 8px;
         }
-        img.card-img-top {
-                margin-top: 5px !important;
-                height: 55px !important;
-                // width: auto;
-            }
-    }
 
-    //   .nav_menu div.card p {
-    //     font-size: 8px;
-    //   }
-}
-</style>
+        img.card-img-top {
+            margin-top: 5px !important;
+            height: 55px !important;
+            // width: auto;
+        }
+    }
+    .mynavbar_outer {
+        .mynavbar {
+            .nav_items {
+                a {
+                    padding: 0 3px;
+                    font-size: 0.8*@nav_fs;
+                }
+            }
+        }
+    }
+}</style>

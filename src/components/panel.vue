@@ -5,9 +5,11 @@
             <!-- <vue_gitem v-for="item of phone" :gitem_list_item="item">
             </vue_gitem> -->
             <template v-for="gitem_list_item of gitem_list">
-                <a class="gitem left_banner" href="" v-if="gitem_list_item.type === 0">
+                <router-link class="gitem left_banner" href="" v-if="gitem_list_item.type === 0" :to="{
+                    name:'product'
+                }">
                     <img :src="gitem_list_item.path">
-                </a>
+                </router-link>
                 <a class="gitem" href="" v-else-if="gitem_list_item.type === 1">
                     <div class="gitem_card">
                         <img :src="gitem_list_item.path">

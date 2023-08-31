@@ -1,7 +1,7 @@
 <template>
   <div class="mobile_side_panel">
     <div>
-      <b-navbar toggleable="lg" type="dark" variant="dark" sticky>
+      <b-navbar toggleable="lg" type="dark" variant="dark" >
         <b-navbar-brand href="#"><img src="../assets/images/logo-mi2.png" alt="" class="w-25  d-block"></b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -19,7 +19,7 @@
             <b-nav-item href="#">人工客服</b-nav-item>
             <b-nav-item href="#">购物车</b-nav-item>
             <b-nav-item href="#">登录/注册</b-nav-item>
-            <b-nav-item href="#" class="bc2top">回到顶部</b-nav-item>
+            <b-nav-item href="#" class="bc2top" v-show="$store.state.bc2top_show">回到顶部</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -43,13 +43,12 @@ export default {
   .mobile_side_panel {
     display: block !important;
     position: sticky;
+    top: 0;
     z-index: 1080;
-    top: 0px;
   }
 }
 .mobile_side_panel {
   display: none;
-
 }
 
 </style>

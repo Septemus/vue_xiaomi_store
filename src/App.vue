@@ -2,15 +2,19 @@
   <div id="app">
     
     
-    <mobile_side_panel>
-    </mobile_side_panel>
+    <mobile_side_panel/>
     <mytopbar></mytopbar>
     <mynavbar></mynavbar>
+
+    <router-view></router-view> 
+    <!-- <mynavbar></mynavbar>
     <disp></disp>
     <advertisement></advertisement>
     <div class="clear_fix">
     </div>
-    <product_area></product_area>
+    <product_area></product_area> -->
+
+
     <bottom_area></bottom_area>
     <post_area></post_area>
     <side_panel></side_panel>
@@ -19,20 +23,20 @@
 </template>
 
 <script>
-import disp from './components/disp.vue'
+// import disp from './components/disp.vue'
 import mynavbar from './components/mynavbar.vue'
-import product_area from './components/product_area.vue'
+// import product_area from './components/product_area.vue'
 import mobile_side_panel from './components/mobile_side_panel.vue'
 import bc2top from './assets/js/bc2top_function.js'
 import mytopbar from './components/mytopbar.vue'
-import advertisement from './components/advertisement.vue'
+// import advertisement from './components/advertisement.vue'
 import bottom_area from './components/bottom_area.vue'
 import post_area from './components/post_area.vue'
 import side_panel from './components/side_panel.vue'
 export default {
   name: 'App',
   components: {
-    disp,mynavbar,product_area,mobile_side_panel,mytopbar,advertisement,bottom_area,post_area,side_panel
+    mynavbar,mobile_side_panel,mytopbar,bottom_area,post_area,side_panel
   },
   mixins:[bc2top]
 }
@@ -56,7 +60,7 @@ export default {
 #app {
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 }
 
 

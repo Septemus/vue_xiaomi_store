@@ -1,46 +1,51 @@
 <template>
-    <div class="mytopbar  row">
-        <ul class="mytopbar_ls col-sm-7">
-            <li><a href="#">小米商城</a></li>
-            <li><a href="#">MIUI</a></li>
-            <li><a href="#">loT</a></li>
-            <li><a href="#">云服务</a></li>
-            <li><a href="#">天星数科</a></li>
-            <li><a href="#">有品</a></li>
-            <li><a href="#">小爱开放平台</a></li>
-            <li><a href="#">企业团购</a></li>
-            <li><a href="#">资质证照</a></li>
-            <li><a href="#">协议规则</a></li>
-            <li class="download">
-                <a href="#">下载app</a>
-                <div class="download_qr">
-                    <a href="#">
-                        <img src="../assets/images/download.png">
-                        <p>小米商城APP</p>
-                    </a>
+    <div class="mytopbar">
+        <div class="container-xl mx-auto row">
 
-
+            <ul class="mytopbar_ls col-sm-7">
+                <li><router-link :to="{
+                    name:'front_page'
+                }">小米商城</router-link></li>
+                <li><a href="#">MIUI</a></li>
+                <li><a href="#">loT</a></li>
+                <li><a href="#">云服务</a></li>
+                <li><a href="#">天星数科</a></li>
+                <li><a href="#">有品</a></li>
+                <li><a href="#">小爱开放平台</a></li>
+                <li><a href="#">企业团购</a></li>
+                <li><a href="#">资质证照</a></li>
+                <li><a href="#">协议规则</a></li>
+                <li class="download">
+                    <a href="#">下载app</a>
+                    <div class="download_qr">
+                        <a href="#">
+                            <img src="../assets/images/download.png">
+                            <p>小米商城APP</p>
+                        </a>
+    
+    
+                    </div>
+                    <div class="download_qr_traingle">
+                    </div>
+                </li>
+            </ul>
+            <div class="mycart col-sm-2">
+                <div class="cart_box">
+                    <i class="fa fa-shopping-cart"></i>
+                    购物车
+    
+    
                 </div>
-                <div class="download_qr_traingle">
+                <div class="cart_content">
+                    这是购物车的内容
                 </div>
-            </li>
-        </ul>
-        <div class="mycart col-sm-2">
-            <div class="cart_box">
-                <i class="fa fa-shopping-cart"></i>
-                购物车
-
-
             </div>
-            <div class="cart_content">
-                这是购物车的内容
-            </div>
+            <ul class="topbar_ls_r col-sm-3">
+                <li><a href="#">登录</a></li>
+                <li><a href="#">注册</a></li>
+                <li><a href="#">消息通知</a></li>
+            </ul>
         </div>
-        <ul class="topbar_ls_r col-sm-3">
-            <li><a href="#">登录</a></li>
-            <li><a href="#">注册</a></li>
-            <li><a href="#">消息通知</a></li>
-        </ul>
 
     </div>
 </template>
@@ -51,6 +56,7 @@ export default {
 </script>
     
 <style lang="less">
+@mytopbar_fs:12px;
 @media (max-width:700px) {
  
     .mytopbar {
@@ -91,6 +97,7 @@ export default {
             /* align-items: center; */
             margin: auto 0;
             /* height: 100%; */
+            font-size: @mytopbar_fs;
         }
 
         .cart_content {
@@ -110,23 +117,23 @@ export default {
 
     }
 
-    .topbar {
-        font-size: small;
-        background-color: rgb(51, 51, 51);
-        width: 100%;
-        height: 50px;
-        line-height: 50px;
-        color: var(--topbar_color);
+    // .topbar {
+    //     // font-size: 7px;
+    //     background-color: rgb(51, 51, 51);
+    //     width: 100%;
+    //     height: 50px;
+    //     line-height: 50px;
+    //     color: var(--topbar_color);
 
-        a {
-            text-decoration: none;
-            color: var(--topbar_color);
-
-            &:hover {
-                color: rgb(242, 242, 242);
-            }
-        }
-    }
+    //     a {
+    //         text-decoration: none;
+    //         color: var(--topbar_color);
+    //         font-size: 7px;
+    //         &:hover {
+    //             color: rgb(242, 242, 242);
+    //         }
+    //     }
+    // }
 
     .mytopbar_ls {
         list-style-type: none;
@@ -137,9 +144,9 @@ export default {
         li {
             float: left;
 
-            +li::after {
+            +li::before {
                 content: "|";
-                padding: 1em;
+                padding: 6px;
                 color: rgb(100, 100, 100);
             }
 
@@ -147,6 +154,9 @@ export default {
             //     content: "|";
             //     padding: 3px;
             //     color: rgb(100, 100, 100);
+            // }
+            // a {
+            //     font-size: 7px;
             // }
         }
 
@@ -222,6 +232,7 @@ export default {
     a {
         text-decoration: none;
         color: var(--topbar_color);
+        font-size: @mytopbar_fs;
     }
 
     .topbar_ls_r {
@@ -234,7 +245,7 @@ export default {
             /* float: left; */
             display: inline;
 
-            +li::after {
+            +li::before {
                 content: "|";
                 padding: 6px;
                 color: rgb(100, 100, 100);

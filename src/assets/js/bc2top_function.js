@@ -1,11 +1,11 @@
 export default {
   mounted() {
-    
+
     var bc2top = document.getElementsByClassName('bc2top');
     bc2top = Array.prototype.slice.apply(bc2top)
     console.log(bc2top)
     // bc2top=bc2top.classList
-    
+
     window.onscroll = () => {
       // console.log(1)
       if (document.body.scrollTop > 900 || document.documentElement.scrollTop > 900) {
@@ -14,23 +14,28 @@ export default {
         //   let i=0;i<bc2top.length;++i
         // ){
         //   bc2top[i].style.display="block";
-    
+
         // }
-        bc2top.forEach(element => {
-          // console.log(element)
-          element.style.display = "block"
-        });
-    
+        // bc2top.forEach(element => {
+        //   // console.log(element)
+        //   element.style.display = "block"
+        // });
+        this.$store.commit('bc2top',true)
+        // console.log(this.$store.state)
+        // console.log(this.$store.bc2top_show)
       } else {
-        bc2top.forEach(element => {
-          // console.log(element)
-    
-          element.style.display = "none"
-        });
+        // bc2top.forEach(element => {
+        //   // console.log(element)
+
+        //   element.style.display = "none"
+        // });
+        // this.$store.bc2top_show = false
+        this.$store.commit('bc2top',false)
+
       }
     }
-    
-    
+
+
     bc2top.forEach(element => {
       element.onclick = () => {
         // debugger
@@ -48,7 +53,7 @@ export default {
           }
         }, 1);
       }
-    
+
     })
   },
 

@@ -33,7 +33,7 @@
             <img class="Bhover" src="../assets/images/692a6c3b0a93a24f74a29c0f9d68ec71.png">
             购物车
         </a>
-        <a href="javascript:void(0);" class="bc2top">
+        <a href="javascript:void(0);" class="bc2top" v-show="$store.state.bc2top_show">
             <img class="static" src="../assets/images/totop.png">
             <img class="Bhover" src="../assets/images/totop_hover.png">
             回到顶部
@@ -59,9 +59,6 @@ export default {
     transform: translateY(-50%);
 
 
-    .bc2top {
-        display: none;
-    }
 
     a {
         text-decoration: none;

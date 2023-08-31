@@ -150,10 +150,10 @@
 @media (max-width:700px) {
   .bottom_area {
 
-    .service {
-      .service_box {
+    div.service {
+      div.service_box {
         width: 50%;
-        font-size: 15px;
+        font-size: 15px !important;
         border: none !important;
       }
     }
@@ -165,15 +165,20 @@
         height: 25%;
   
         dt {
-          font-size: 8px;
+          font-size: 8px !important;
           padding: 5px 10px;
         }
     
         dd {
           /* font-size: 7px; */
-          font-size: 6px;
           text-align: center;
-          padding: 2px 0px;
+            line-height: 8px;
+            padding: 2px 0px;
+            margin-bottom: 3px;
+            a {
+              
+              font-size: 6px !important;
+            }
         }
       }
   
@@ -189,7 +194,7 @@
         margin-top: 3px;
         .telephone {
           /* color: orange; */
-          font-size: 17px;
+          font-size: 17px !important;
           margin-top: 3px;
         }
     
@@ -206,6 +211,7 @@
           margin-top: 10px;
           padding: 5px 10px;
           border: 2px solid orange;
+          font-size: 10px !important;
         }
       }
   

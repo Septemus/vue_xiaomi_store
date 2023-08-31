@@ -1,59 +1,24 @@
 <template>
   <div class="disp container-xl px-0">
+    <div class="slide_menu" v-show="staying"  @mouseover="staying = true" @mouseleave="staying = false">
+      <ul>
+        <li v-for="item of slide_menu_list[selected]">
+          <a href="javascript:;">
+            <img :src="item.path">
+              <span class="d-inline-block">{{ item.name }}</span>
+
+          </a>
+        </li>
+      </ul>
+    </div>
     <div class="left">
       <ul>
-        <li>手机
-          <div class="slide_menu">
-            <ul>
-              <li v-for="item of slide_menu_list">
-                <a href="javascript:;">
-                  <img :src="item.path">
-                  <span>{{ item.name }}</span>
-                </a>
-              </li>
-            </ul>
-
-
-
-          </div>
+        <li v-for="item, index of slide_item_list" @mouseover="selected = index; staying = true"
+          @mouseleave="staying = false">
+          {{ item }}
           <i class="fa fa-angle-right"></i>
         </li>
-        <li>电视
-          <div class="slide_menu">
-
-          </div>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>家电
-          <div class="slide_menu">
-
-          </div>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>笔记本 平板
-          <div class="slide_menu">
-
-          </div>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>出行 穿戴
-          <div class="slide_menu">
-
-          </div>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>耳机 音箱
-          <div class="slide_menu">
-
-          </div>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>健康 儿童
-          <div class="slide_menu">
-
-          </div>
-          <i class="fa fa-angle-right"></i>
-        </li>
+        
       </ul>
 
     </div>
@@ -82,7 +47,7 @@ import "swiper/bundle"
 export default {
   data() {
     return {
-      slide_menu_list: [
+      phone_list: [
         {
           "path": require("../assets/images/heisha.webp"),
           "name": "黑鲨5 Pro"
@@ -180,6 +145,8 @@ export default {
           "name": "Xiaomi 11 青春"
         }
       ],
+      slide_menu_list: [
+      ],
       swiper_slide_list: [
         {
           "index": 1,
@@ -205,14 +172,18 @@ export default {
 
           "path": require("../assets/images/9778fda5f48d1aae93c4747a5274a1a1.jpg")
         }
-      ]
+      ],
+      slide_item_list: [
+        '手机', '电视', '家电', '笔记本 平板', '出行 穿戴', '耳机 音箱', '健康 儿童'
+      ],
+      staying: false,
+      selected: -1
     }
   },
   components: {
     swiper_item
   },
   mounted() {
-
     var mySwiper = new Swiper('.swiper', {
       loop: true, // 循环模式选项
       effect: 'fade',
@@ -233,6 +204,7 @@ export default {
       // 如果需要滚动条
 
     })
+    this.slide_menu_list = [this.phone_list]
   }
 }
 </script>
@@ -240,10 +212,21 @@ export default {
 @media (max-width:700px) {
 
 
-  .disp {
+  div.disp {
+    .slide_menu {
+      ul {
+        li {
+          a {
+            span {
+              font-size: 5px;
+            }
+          }
+        }
+      }
+    }
     .left {
       font-size: 0.5em;
-      width: 20%;
+
     }
 
     height: 250px;
@@ -257,6 +240,55 @@ export default {
   /* overflow: auto; */
   width: 100%;
   height: 400px;
+
+  .slide_menu {
+    box-sizing: border-box;
+    padding: 20px 0px;
+    z-index: 100;
+    position: absolute;
+    // display: none;
+    left: 20%;
+    top: 0%;
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    box-shadow: var(--shadow1);
+
+    ul {
+      width: 100%;
+      height: 100%;
+      list-style-type: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: space-around;
+
+      li {
+        width: 24%;
+        height: 15%;
+        /* float: left; */
+        display: block;
+
+        /* display: inline-block; */
+        a {
+          text-decoration: none;
+          color: black;
+          font-size: small;
+          display: block;
+          height: 100%;
+          width: 100%;
+          img {
+            /* width:30px; */
+            // height: 100%;
+            width: 25%;
+          }
+          span {
+            width: 75%;
+          }
+        }
+
+      }
+    }
+  }
 
   .left {
     background-color: rgba(105, 105, 105, 0.6);
@@ -273,47 +305,8 @@ export default {
     z-index: 20;
     font-size: 15px;
 
-    .slide_menu {
-      box-sizing: border-box;
-      padding: 20px 0px;
-      z-index: 100;
-      position: absolute;
-      display: none;
-      left: 100%;
-      top: 0%;
-      width: 900px;
-      height: 100%;
-      background-color: white;
-      box-shadow: var(--shadow1);
 
-      ul {
-        width: 100%;
-        height: 100%;
-        list-style-type: none;
-        display: flex;
-        flex-wrap: wrap;
-        align-content: space-around;
 
-        li {
-          width: 24%;
-          height: 15%;
-          /* float: left; */
-          display: block;
-
-          /* display: inline-block; */
-          a {
-            text-decoration: none;
-            color: black;
-            font-size: small;
-          }
-
-          img {
-            /* width:30px; */
-            height: 100%;
-          }
-        }
-      }
-    }
 
     ul {
       list-style-type: none;

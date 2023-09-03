@@ -1,24 +1,24 @@
 <template>
   <div class="disp container-xl px-0">
-    <div class="slide_menu" v-show="staying"  @mouseover="staying = true" @mouseleave="staying = false">
-      <ul>
-        <li v-for="item of slide_menu_list[selected]">
+    <div class="slide_menu" v-show="staying" @mouseover="staying = true" @mouseleave="staying = false">
+      <ul v-if="fetched_category">
+        <li v-for="item of category_lists[selected].array">
           <a href="javascript:;">
-            <img :src="item.path">
-              <span class="d-inline-block">{{ item.name }}</span>
+            <img :src="$store.state.location_prefix + item.img_src">
+            <span class="d-inline-block">{{ item.name }}</span>
 
           </a>
         </li>
       </ul>
     </div>
     <div class="left">
-      <ul>
-        <li v-for="item, index of slide_item_list" @mouseover="selected = index; staying = true"
+      <ul v-if="fetched_category">
+        <li v-for="item, index of category_lists" @mouseover="selected = index; staying = true"
           @mouseleave="staying = false">
-          {{ item }}
+          {{ item.title }}
           <i class="fa fa-angle-right"></i>
         </li>
-        
+
       </ul>
 
     </div>
@@ -47,144 +47,49 @@ import "swiper/bundle"
 export default {
   data() {
     return {
-      phone_list: [
-        {
-          "path": require("../assets/images/heisha.webp"),
-          "name": "黑鲨5 Pro"
-        },
-        {
-          "path": require("../assets/images/a75970583c27c5cfe61f8dcafc3245c1.webp"),
-          "name": "黑鲨5"
-        },
-        {
-          "path": require("../assets/images/cd1f0b06757ab64cb320a9a545f616ef.webp"),
-          "name": "Redmi 10A"
-        },
-        {
-          "path": require("../assets/images/c1f27bd990c9b9380fb7685639b3f503.webp"),
-          "name": "Redmi K50 Pro"
-        },
-        {
-          "path": require("../assets/images/199b6e1769dd4002b0e6373fd3a5dd0e.webp"),
-          "name": "Redmi K50"
-        },
-        {
-          "path": require("../assets/images/574efed01e8d437aa5c82fdc515b7e65.webp"),
-          "name": "Redmi K40S"
-        },
-        {
-          "path": require("../assets/images/b251574ddd82dca50a160d4acc09ceb5.webp"),
-          "name": "Redmi K50 电竞版"
-        },
-        {
-          "path": require("../assets/images/6c0553468a73cc445012577d8993dfc9.webp"),
-          "name": "Xiaomi 12 Pro"
-        },
-        {
-          "path": require("../assets/images/ae8f6a46838f737d69290f12fd95de35.webp"),
-          "name": "Xiaomi 12"
-        },
-        {
-          "path": require("../assets/images/6a7002e89afcdc705744bb395ad29ca4.webp"),
-          "name": "Xiaomi 12X"
-        },
-        {
-          "path": require("../assets/images/e2ea5e610875460bc0cda0e45f4822ec.webp"),
-          "name": "Xiaomi 11 青春活力版"
-        },
-        {
-          "path": require("../assets/images/a95d59ec8c9c6ae7061f314eb4901e7c.webp"),
-          "name": "Note 11 Pro 系列"
-        },
-        {
-          "path": require("../assets/images/e2c570b7cd666114a7d351a1dd10a527.webp"),
-          "name": "Note 11 4G"
-        },
-        {
-          "path": require("../assets/images/ca3caca774dc8be0a453c90d1fa58e13.webp"),
-          "name": "Note 11 5G"
-        },
-        {
-          "path": require("../assets/images/92fdd051100722d25323e9bd188befc5.webp"),
-          "name": "Redmi K40"
-        },
-        {
-          "path": require("../assets/images/f33903e1162959f500360a39896f2306.webp"),
-          "name": "Xiaomi Civi"
-        },
-        {
-          "path": require("../assets/images/fa2bae1f43611e80a8e4877719c76bdb.webp"),
-          "name": "Xiaomi MIX 4"
-        },
-        {
-          "path": require("../assets/images/ab345272bf9894bb8269d4901344b068.webp"),
-          "name": "Xiaomi MIX FOLD"
-        },
-        {
-          "path": require("../assets/images/a1241b5a94ba1739e85f72d46592af0e.webp"),
-          "name": "Xiaomi 11 Ultra"
-        },
-        {
-          "path": require("../assets/images/a51c1afa4db8e47e62fad1f6fa4a8970.webp"),
-          "name": "Xiaomi 11"
-        },
-        {
-          "path": require("../assets/images/79e2935264bf9247aa7512e330112820.webp"),
-          "name": "Note 10 5G"
-        },
-        {
-          "path": require("../assets/images/56bb7e2d44cef71c3afedaeae3d98927.webp"),
-          "name": "Note 10 Pro"
-        },
-        {
-          "path": require("../assets/images/1db88cd66ff1a6a3e75116988b7f3e12.webp"),
-          "name": "Redmi 9A"
-        },
-        {
-          "path": require("../assets/images/72bd70039670d29610569421f753fcb6.webp"),
-          "name": "Xiaomi 11 青春"
-        }
-      ],
-      slide_menu_list: [
-      ],
+      fetched_category: false,
       swiper_slide_list: [
         {
           "index": 1,
-          "path": require("../assets/images/90495f43f9a067b47b36c07d0bd2b4ff.webp")
+          "path": this.$store.state.location_prefix+'/images/slide/slide0.png'
         },
         {
           "index": 2,
 
-          "path": require("../assets/images/8e169482b8cbf7a68daaef1464881446.webp")
+          "path": this.$store.state.location_prefix+'/images/slide/slide1.png'
         },
         {
           "index": 3,
 
-          "path": require("../assets/images/e1a326a1a5db9d8be9c5767aab1b08c6.webp")
+          "path": this.$store.state.location_prefix+'/images/slide/slide2.png'
         },
         {
           "index": 4,
 
-          "path": require("../assets/images/74a51ccb0237755ef3ad7021a6e6d43c.webp")
+          "path": this.$store.state.location_prefix+'/images/slide/slide3.png'
         },
         {
           "index": 5,
 
-          "path": require("../assets/images/9778fda5f48d1aae93c4747a5274a1a1.jpg")
+          "path": this.$store.state.location_prefix+'/images/slide/slide4.png'
         }
       ],
-      slide_item_list: [
-        '手机', '电视', '家电', '笔记本 平板', '出行 穿戴', '耳机 音箱', '健康 儿童'
-      ],
+      // slide_item_list: [
+      //   '手机', '电视', '家电', '笔记本 平板', '出行 穿戴', '耳机 音箱', '健康 儿童'
+      // ],
+      category_lists: [],
       staying: false,
-      selected: -1
+      selected: 0
     }
   },
   components: {
     swiper_item
   },
+
   mounted() {
-    var mySwiper = new Swiper('.swiper', {
+    console.log('mounted')
+    // debugger
+    var mySwiper = new Swiper('.mySwiper', {
       loop: true, // 循环模式选项
       effect: 'fade',
       // 如果需要分页器
@@ -204,7 +109,16 @@ export default {
       // 如果需要滚动条
 
     })
-    this.slide_menu_list = [this.phone_list]
+    mySwiper.autoplay.start()
+    console.log(mySwiper)
+
+    fetch(this.$store.state.location_prefix+'/resources/category').then(res => res.json()).then(res => {
+      console.log('this is category:@@@'+res)
+      this.category_lists = res
+      this.fetched_category = true
+    })
+    // this.slide_menu_list = [this.phone_list]
+
   }
 }
 </script>
@@ -224,9 +138,14 @@ export default {
         }
       }
     }
+
     .left {
       font-size: 0.5em;
-
+      ul {
+        li {
+          padding: 5px;
+        }
+      }
     }
 
     height: 250px;
@@ -239,7 +158,7 @@ export default {
   position: relative;
   /* overflow: auto; */
   width: 100%;
-  height: 400px;
+  height: 460px;
 
   .slide_menu {
     box-sizing: border-box;
@@ -276,11 +195,13 @@ export default {
           display: block;
           height: 100%;
           width: 100%;
+
           img {
             /* width:30px; */
             // height: 100%;
             width: 25%;
           }
+
           span {
             width: 75%;
           }
@@ -395,5 +316,4 @@ export default {
   }
 
 
-}
-</style>
+}</style>

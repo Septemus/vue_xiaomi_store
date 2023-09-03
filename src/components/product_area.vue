@@ -2,10 +2,18 @@
     <div class="product_area">
         <div class="container-xl">
             <div class="home-banner-box">
-                <a href="javascript:;"><img src="../assets/images/0e2b43800d3e1ef40470ac04b3e0140b.webp"></a>
+                <a href="javascript:;"><img :src="$store.state.location_prefix + '/images/banner/b1.png'"></a>
             </div>
+            <panel v-for="panel_list, index of panel_lists" v-if="fetched_panel_lists" :gitem_list="panel_list">
+                <!-- <p>{{ panel_list.left_title }}</p>
+                <a href="javascript:void(0);" v-for="r_tab of panel_list.right_tabs">
+                    &nbsp;
+                    {{ r_tab.content }}
+                    <i class="fa fa-angle-right" v-if="r_tab.type===0"></i>
+                </a> -->
 
-            <panel :gitem_list="phone">
+            </panel>
+            <!-- <panel :gitem_list="phone">
                 <p>手机</p>
                 <a href="">
                     查看更多 <i class="fa fa-angle-right"></i>
@@ -13,15 +21,15 @@
             </panel>
             <panel :gitem_list="earphone" v-if="flag1 === 0">
                 <p>智能穿戴</p>
-                <a href="javascript:void(0);" id="wearing_a" :class="{ a_selected: flag1 === 1 }" @click="flag1 = 1">穿戴</a>
+                <a href="javascript:void(0);"  :class="{ a_selected: flag1 === 1 }" @click="flag1 = 1">穿戴</a>
                 &nbsp;
-                <a href="javascript:void(0);" id="earphone_a" :class="{ a_selected: flag1 === 0 }" @click="flag1 = 0">耳机</a>
+                <a href="javascript:void(0);"  :class="{ a_selected: flag1 === 0 }" @click="flag1 = 0">耳机</a>
             </panel>
             <panel :gitem_list="wearing" v-if="flag1 === 1">
                 <p>智能穿戴</p>
-                <a href="javascript:void(0);" id="wearing_a" :class="{ a_selected: flag1 === 1 }" @click="flag1 = 1">穿戴</a>
+                <a href="javascript:void(0);"  :class="{ a_selected: flag1 === 1 }" @click="flag1 = 1">穿戴</a>
                 &nbsp;
-                <a href="javascript:void(0);" id="earphone_a" :class="{ a_selected: flag1 === 0 }" @click="flag1 = 0">耳机</a>
+                <a href="javascript:void(0);"  :class="{ a_selected: flag1 === 0 }" @click="flag1 = 0">耳机</a>
             </panel>
             <panel :gitem_list="laptop">
                 <p>笔记本&nbsp;|&nbsp;平板</p>
@@ -36,17 +44,25 @@
                 <p>家电</p>
                 <a href="javascript:;" id="tv_a" :class="{ a_selected: flag2 === 1 }" @click="flag2 = 1">电视影音</a>
                 <a href="javascript:;" id="onsale_a" :class="{ a_selected: flag2 === 0 }" @click="flag2 = 0">热门</a>
-            </panel>
+            </panel> -->
             <div class="home-banner-box">
-                <a href="javascript:;"><img src="../assets/images/88e35cffc82cd98cd53172460067af17.webp"></a>
+                <a href="javascript:;"><img :src="$store.state.location_prefix + '/images/banner/b2.png'"></a>
             </div>
-            <div class="panel">
-                <p>
-                    视频
-                </p>
-                <a href="javascript:;">
-                    查看更多 <i class="fa fa-angle-right"></i>
-                </a>
+            <div class="panel video_panel">
+                <div class="p_header">
+                    <p>
+                        视频
+                    </p>
+                    <div class="d-inline-block float-end">
+                        <div class="right_tabs">
+                            <a href="javascript:;">
+                                查看更多 <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
                 <div class="video_container">
 
                     <a href="javascript:;" class="video_img">
@@ -98,6 +114,7 @@ export default {
     },
     data() {
         return {
+            fetched_panel_lists: false,
             flag1: 0,
             flag2: 0,
             phone: [
@@ -532,8 +549,20 @@ export default {
                 }
 
             ],
+            panel_lists: [
+
+            ]
         }
-    }
+    },
+    mounted() {
+        console.log('product_area' + this)
+        fetch(this.$store.state.location_prefix + '/resources/product').then(res => res.json()).then(res => {
+            console.log('fetched' + res)
+            this.fetched_panel_lists = true
+
+            this.panel_lists = res
+        })
+    },
 }
 </script>
 <style lang="less">
@@ -635,4 +664,5 @@ export default {
 
 
 
-// .panel .video_container .video_img .panel .video_container .video_img img</style>
+// .panel .video_container .video_img .panel .video_container .video_img img
+</style>

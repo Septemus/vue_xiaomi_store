@@ -19,7 +19,8 @@ const mutations = {
 //准备state——用于存储数据
 const state = {
 	// sum:0 //当前的和
-	bc2top_show:false
+	bc2top_show:false,
+	location_prefix:'http://192.168.1.102:3000'
 }
 
 //创建并暴露store

@@ -27,9 +27,9 @@
       </div>
       <div class="rightbox col-md-8 p-0">
         <div class="ad_right">
-          <div class="ad_card"><img src="../assets/images/0ab8e5096ac6f08bd632e4d5a15d1792.jpg"></div>
-          <div class="ad_card"><img src="../assets/images/c5f019908e21571fe48fdad0ebf79249.jpg"></div>
-          <div class="ad_card"><img src="../assets/images/28c13d0d11b38ec17fa5d83bc6ba5912.jpg"></div>
+          <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad1.png'"></div>
+          <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad2.png'"></div>
+          <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad3.png'"></div>
         </div>
       </div>
 

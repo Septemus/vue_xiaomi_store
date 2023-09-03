@@ -130,6 +130,7 @@ export default {
             // 如果需要滚动条
 
         })
+        console.log(this.$route.query.pid)
     }
 }
 </script>

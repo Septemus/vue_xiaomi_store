@@ -5,15 +5,15 @@
         <div class="row mynavbar container-xl mx-auto">
             <div class="col-md-2 py-3 px-0  text-white">
                 <div class="logo_div">
+
                     <img src="../assets/images/logo-mi2.png" alt="" class="img-fluid  d-block">
                 </div>
             </div>
             <div class="col-md-8 p-3  ">
                 <div class="nav_items">
-                    <a href="#" v-for="item, index of nav_items_list" @mouseover="selected = index; staying = true"
-                        @mouseleave="staying = false" :key="index">{{ item }}</a>
-
-
+                    <a href="#" v-if="fetched" v-for="item, index of nav_children"
+                        @mouseover="selected = index; staying = true" @mouseleave="staying = false" :key="index">{{
+                            item.title }}</a>
                 </div>
             </div>
             <div class="col-md-2 p-3  text-white">
@@ -41,17 +41,28 @@
                 </div>
             </div>
         </div>
-        <div class="nav_menu" @mouseover="staying = true" @mouseleave="staying = false" :class="{ 'showing': staying }">
-            <div class="container-xl mx-auto">
-                <div class="card h-100 d-inline-block" v-for="item,index of lists[selected]" :key="index">
+        <div class="nav_menu" @mouseover="staying = true" @mouseleave="staying = false" :class="{ 'showing': staying }"
+            v-if="fetched">
+            <div class="container-xl mx-auto position-relative h-100 d-flex justify-content-between flex-wrap">
+                <router-link class="card h-100  " v-for="item, index of nav_children[selected].children" :key="index" :to="{
+                    name:'product',
+                    query:{
+                        pid:item.id
+                    }
+                }">
+                    <div>
+                        <div class="card-img-top">
 
-                    <img class="card-img-top     d-block mx-auto" :src="item.path">
-                    <div class="card-body">
+                            <img class="d-block mx-auto" :src="$store.state.location_prefix + item.img_path">
+                        </div>
                         <p>{{ item.name }}</p>
-                        <p class="card_price">{{ item.price }}</p>
 
                     </div>
-                </div>
+                    <!-- <div class="card-body"> -->
+                    <p class="card_price">{{ item.price }}</p>
+
+                    <!-- </div> -->
+                </router-link>
 
             </div>
         </div>
@@ -63,89 +74,19 @@ export default {
     name: 'mynavbar',
     data() {
         return {
-            nav_items_list: [
-                `小米手机`, `redmi手机`, `电视`, `笔记本`, `平板`, `家电`, `路由器`
-            ],
-            phone_list: [
-                {
-
-                    "path": require("../assets/images/nav1.webp"),
-                    "name": "XiaoMi 12 Pro",
-                    "price": "4699元起"
-
-                },
-                {
-                    "path": require("../assets/images/nav2.webp"),
-                    "name": "XiaoMi 12",
-                    "price": "3699元起"
-
-                },
-                {
-                    "path": require("../assets/images/nav3.webp"),
-                    "name": "XiaoMi 12X",
-                    "price": "2999元起"
-
-                },
-
-                {
-                    "path": require("../assets/images/nav4.webp"),
-                    "name": "XiaoMi 11 青春活力版",
-                    "price": "1899元起"
-
-                },
-                {
-                    "path": require("../assets/images/nav5.webp"),
-                    "name": "XiaoMi Civi",
-                    "price": "2299元起"
-
-                },
-
-                {
-                    "path": require("../assets/images/nav6.webp"),
-                    "name": "XiaoMi MIX 4",
-                    "price": "4199元起"
-
-                }
-            ],
-            red_list: [
-                {
-                    "path": require("../assets/images/redmi10A.webp"),
-                    "name": " Redmi 10A",
-                    "price": "649元起"
-                },
-                {
-                    "path": require("../assets/images/redmik50pro.webp"),
-                    "name": " Redmi K50 Pro",
-                    "price": "2999元起"
-                },
-                {
-                    "path": require("../assets/images/redmik50.webp"),
-                    "name": " Redmi K50",
-                    "price": "2399元起"
-                },
-                {
-                    "path": require("../assets/images/redmik40S.webp"),
-                    "name": " Redmi K40S",
-                    "price": "1799元起"
-                },
-                {
-                    "path": require("../assets/images/redmiK50电竞.webp"),
-                    "name": " Redmi K50 电竞版",
-                    "price": "3299元起"
-                },
-                {
-                    "path": require("../assets/images/redmi note11Pro.webp"),
-                    "name": " Redmi Note 11 Pro",
-                    "price": "1799元起"
-                }
-            ],
-            lists: [],
+            nav_children: [],
             selected: 0,
-            staying: false
+            staying: false,
+            fetched: false,
         }
     },
     mounted() {
         this.lists = [this.phone_list, this.red_list]
+        fetch(this.$store.state.location_prefix + `/resources/nav`).then(res => res.json()).then(res => {
+            console.log('this is nav:@@@' + res)
+            this.fetched = true
+            this.nav_children = res
+        })
     }
 }
 
@@ -153,8 +94,9 @@ export default {
 </script>
 <style lang="less">
 @nav_gray: rgb(224, 224, 224);
-@menu_min_height: 220px;
-@nav_fs:17px;
+@menu_min_height: 250px;
+@nav_fs: 17px;
+
 .showing {
     min-height: @menu_min_height !important;
     border-bottom: 1px solid @nav_gray;
@@ -167,11 +109,11 @@ export default {
 
     .nav_menu {
         z-index: 400;
-        display: flex;
-        flex-wrap: wrap;
-        /* display: none; */
-        justify-content: space-around;
-        align-items: center;
+        // display: flex;
+        // flex-wrap: wrap;
+        // /* display: none; */
+        // justify-content: space-between;
+        // align-items: center;
         margin: 0;
         position: absolute;
         // left: 0px;
@@ -192,30 +134,35 @@ export default {
         // }
 
         .card {
+            padding-bottom: 40px;
             border: none;
             border-radius: 0;
             width: 16.6%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
 
-            .card-body {
-                padding: 0;
+            img {
+                height: 100%;
+                width: auto;
+            }
 
-                p {
-                    text-align: center;
-                    word-wrap: nowrap;
-                    font-size: 10px;
-                    margin-bottom: 2px;
-                }
+            p {
+                text-align: center;
+                word-wrap: nowrap;
+                font-size: 12px;
+                margin-bottom: 2px;
+            }
 
-                .card_price {
-                    color: orange;
-                }
+            .card_price {
+                color: orange;
             }
 
             .card-img-top {
                 margin-top: 25px;
-                // max-height: 55%;
-                height: 100px;
-                // width: auto;
+                width: 100%;
+                height: 0.5*@menu_min_height;
             }
 
             +.card {
@@ -235,6 +182,7 @@ export default {
             height: 100%;
             display: flex;
             align-items: center;
+
             a {
 
                 display: inline-block;
@@ -292,19 +240,27 @@ export default {
         /* height: 50%; */
         height: 50% !important;
         border: none !important;
+        padding-bottom: 5px !important;
 
         p {
-            font-size: 8px;
+            font-size: 8px !important;
         }
 
-        img.card-img-top {
+        .card-img-top {
             margin-top: 5px !important;
-            height: 55px !important;
+            height: 0.25*@menu_min_height !important;
             // width: auto;
         }
     }
+
     .mynavbar_outer {
         .mynavbar {
+            .logo_div {
+                img {
+                    margin: 0 auto;
+                }
+            }
+
             .nav_items {
                 a {
                     padding: 0 3px;

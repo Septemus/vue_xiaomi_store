@@ -44,10 +44,11 @@
         <div class="nav_menu" @mouseover="staying = true" @mouseleave="staying = false" :class="{ 'showing': staying }"
             v-if="fetched">
             <div class="container-xl mx-auto position-relative h-100 d-flex justify-content-between flex-wrap">
-                <router-link class="card h-100  " v-for="item, index of nav_children[selected].children" :key="index" :to="{
+                <router-link class="card h-100  " v-for="item, index of nav_children[selected].children" :key="item.id" :to="{
                     name:'product',
                     query:{
-                        pid:item.id
+                        pid:item.id,
+                        pname:item.name
                     }
                 }">
                     <div>

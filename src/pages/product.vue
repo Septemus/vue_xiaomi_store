@@ -5,7 +5,7 @@
             <div class="container-xl">
                 <div class="row mb-1">
                     <div class="col-md-6">
-                        <h2 class="m-0">Xiaomi MIX Fold 3</h2>
+                        <h2 class="m-0">{{ this.$route.query.pname }}</h2>
                     </div>
                     <div class="col-md-6">
                         <ul>
@@ -22,31 +22,36 @@
             <div class="row">
                 <div class="swiper mySwiper col-md-6">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="(item, index) in product_swiper_slide_list" :key="item.index"
+                        <div class="swiper-slide" v-for="(item, index) in product_swiper_slide_list" :key="item.path"
                             :class="'slide_' + (index + 1)">
-                            <a href="javascript:;" class="d-block">
-                                <img :src="item.path" class="d-block mx-auto">
+                            <a href="javascript:;" >
+                                <img :src="item.path" class="mx-auto">
                             </a>
                         </div>
                         <!-- <swiper_item>
                         </swiper_item> -->
                     </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination" v-show="product_swiper_slide_list.length>1"></div>
+                    <div class="swiper-button-next" v-show="product_swiper_slide_list.length>1"></div>
+                    <div class="swiper-button-prev" v-show="product_swiper_slide_list.length>1"></div>
                 </div>
                 <div class="col-md-6 info">
-                    <h2>Xiaomi MIX Fold 3</h2>
-                    <p class="info_p_gray">小米龙骨转轴|徕卡光学全焦段四摄|小米澎湃电池|双E6旗舰屏幕|第二代骁龙8 领先版|大屏交互|智能大屏</p>
+                    <h2>{{ this.$route.query.pname }}</h2>
+                    <p class="info_p_gray">{{ this.description }}</p>
                     <p class="orange">小米自营</p>
                     <div class="price_info orange">
-                        <span>8999元</span>
+                        <span>{{ this.price }}元</span>
+                        <del v-if="min_old_price">{{ this.old_price }}元</del>
                     </div>
                     <hr>
+                    <div class="options">
+                        <option_box v-for="opt of options" :opt="opt" @choose="getChoice"></option_box>
+                    </div>
                     <div class="summary">
-                        <span>Xiaomi MIX Fold 3 12GB+256GB 月影黑</span>
-                        <span class="float-end">8999元</span>
-                        <p class="orange">总计：8999元</p>
+                        <span class="d-inline-block w-75">{{ this.$route.query.pname }} {{this.opt_string}}</span>
+                        <del class="float-end" v-if="min_old_price">{{ this.old_price }}元</del>
+                        <span class="float-end">{{ this.price }}元</span> 
+                        <p class="orange">总计：{{ this.price }}元</p>
                     </div>
                     <div class="sale_btn row">
                         <a href="" class="col-md-6 d-block">
@@ -59,21 +64,22 @@
                     </div>
                     <div class="guarantees">
                         <ul>
-                            <li><i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+                            <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>
                                 小米自营</li>
-                            <li><i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+                            <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>
                                 小米发货</li>
-                            <li><i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+                            <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>
                                 7天无理由退货（到店自取拆封后不支持）</li>
-                            <li><i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+                            <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>
                                 运费说明</li>
-                            <li><i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+                            <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>
                                 企业信息</li>
-                            <li><i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+                            <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>
                                 7天价格保护</li>
 
                         </ul>
                     </div>
+                    
                 </div>
 
             </div>
@@ -83,64 +89,181 @@
 <script>
 import Swiper from 'swiper'; // 注意引入的是Swiper
 // import 'swiper/css/swiper.min.css' // 注意这里的引入
+import option_box from '../components/option_box.vue'
 import "swiper/swiper-bundle.min.css"
 import "swiper/bundle"
 export default {
     data() {
         return {
+            pid: undefined,
+            pname: undefined,
             product_swiper_slide_list: [
-                {
-                    "index": 1,
-                    "path": require("../assets/images/xmf3_1.jpg")
-                },
-                {
-                    "index": 2,
-
-                    "path": require("../assets/images/xmf3_2.jpg")
-                },
-                {
-                    "index": 3,
-
-                    "path": require("../assets/images/xmf3_3.png")
-                },
-
-
-            ]
-
+            ],
+            description: '',
+            min_price: 0,
+            min_old_price: 0,
+            cur_plus: 0,
+            cur_plus_old: 0,
+            mySwiper: undefined,
+            options:[],
+            mychoices:{},
+            opt_string:''
         }
     },
-    mounted() {
-        var mySwiper = new Swiper('.swiper', {
-            loop: true, // 循环模式选项
-            effect: 'fade',
-            // 如果需要分页器
-            pagination: {
-                el: '.swiper-pagination',
-            },
-
-            // 如果需要前进后退按钮
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            autoplay: {
-                delay: 2000
-            }
-
-            // 如果需要滚动条
-
-        })
-        console.log(this.$route.query.pid)
+    components:{
+        option_box
     }
+    ,
+    computed: {
+        price() {
+            return this.min_price + this.cur_plus
+        },
+        old_price() {
+            return this.min_old_price + this.cur_plus_old
+        }
+    },
+    watch: {
+        product_swiper_slide_list(val) {
+            // debugger
+            if (this.product_swiper_slide_list.length) {
+                this.$nextTick(function () {
+                    // debugger
+                    this.mySwiper = new Swiper('.swiper', {
+
+                        loop: true, // 循环模式选项
+                        effect: 'fade',
+                        fadeEffect:{
+                            crossFade:true
+                        },
+                        // 如果需要分页器
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+
+                        // 如果需要前进后退按钮
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        autoplay: {
+                            delay: 2000
+                        }
+                        // 如果需要滚动条
+                    })
+                    console.log(this.mySwiper)
+                })
+            }
+            // this.$nextTick(function () {
+
+
+            // })
+        },
+    },
+    methods: {
+        reload() {
+            this.mychoices=new Map()
+            this.product_swiper_slide_list.splice(0, this.product_swiper_slide_list.length)
+            this.options=[]
+            // debugger
+            console.log(this.product_swiper_slide_list)
+            console.log('###')
+
+            // console.log(this.pid)
+            // console.log(this.pname)
+            console.log('fetching', this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`)
+            fetch(this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`).then(res => {
+                // console.log(res)
+                return res.json()
+            }).then(res => {
+                console.log('this is detail:@@@')
+                res.forEach((element, index) => {
+                    console.log(element.data)
+                    // if (index === 0) {
+                    //     console.log('hello')
+                    // }
+                });
+                // console.log(res[1].data)
+                this.description = res[0].data[0].description
+                this.min_price = res[0].data[0].min_price
+                this.min_old_price = res[0].data[0].min_old_price ?? undefined
+                for (let item of res[1].data) {
+                    let tmp = { path: this.$store.state.location_prefix + item.img_path }
+                    // console.log(tmp)
+                    this.product_swiper_slide_list.push(tmp)
+                }
+                for(let item of res[2].data){
+                    let tmp={carr:[]}
+                    tmp.oname=item.option_name
+                    console.log(item.oid)
+                    for(let choice of res[3].data){
+                        if(item.oid===choice.oid){
+                            console.log(choice.choice_name)
+                            tmp.carr.push(choice)
+                        }
+                    }
+                    this.options.push(tmp)
+                }
+                console.log('this is options:',this.options)
+
+                console.log('after fetching:', this.product_swiper_slide_list)
+                // console.log(this.mySwiper)
+            })
+
+        },
+        getChoice(choice){
+            console.log('this is product page,this is the choice:',choice)
+            this.mychoices[choice.oid]=choice
+            // console.log(this.mychoices)
+            let sum=0
+            let sumold=0
+            let tmp_string=''
+            for(let oid in this.mychoices) {
+                console.log(this.mychoices[oid])
+                sum+=this.mychoices[oid].price
+                if(this.min_old_price) sumold+=this.mychoices[oid].old_price
+                tmp_string+=this.mychoices[oid].choice_name+' '
+            }
+            console.log(sum,sumold)
+            this.cur_plus=sum
+            this.cur_plus_old=sumold
+            this.opt_string=tmp_string
+        }
+        
+    },
+    mounted() {
+        this.pid = this.$route.query.pid
+        this.pname = this.$route.query.pname
+        this.reload()
+    },
+    beforeRouteUpdate(to, from, next) {
+        console.log('&&&')
+        this.pid = to.query.pid
+        this.pname = to.query.pname
+        this.reload()
+        next()
+    }
+    // activated(){
+    //     console.log('act')
+    // }
 }
 </script>
 <style lang="less" scoped>
 @header_a_gray: rgb(97, 97, 97);
 @swiper_gray: rgb(124, 124, 124);
 @info_p_gray: rgb(176, 176, 176);
+@choice_gray: rgb(224, 224, 224);
 @summary_gray: rgb(249, 249, 250);
 @my_orange: rgb(255, 103, 0);
+.outertest {
+    width:200px;
+    .test {
+        width:100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 
+}
 .product_header {
     box-shadow: 0px 5px 5px rgba(0, 0, 0, .07);
 
@@ -185,18 +308,24 @@ export default {
         .mySwiper {
             --swiper-navigation-color: @swiper_gray;
             --swiper-pagination-color: @swiper_gray;
-
-            img {
-                // height: 100%;
-                max-height: 560px;
-                width: min(100%, auto);
+            a {
+                display: block;
             }
+            img {
+                height: auto;
+                // max-height: 560px;
+                width: 100%;
+                display: block;
+                // width:auto;
+            }
+                // max-height: 560px;
+
         }
 
         .info {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            // display: flex;
+            // flex-direction: column;
+            // justify-content: space-between;
 
             h2 {
                 font-size: 24px;
@@ -212,27 +341,49 @@ export default {
             }
 
             .orange {
-                color: @my_orange;
+                color: @my_orange !important;
+            }
+
+            .orange_border {
+                border: 1px @my_orange solid !important;
+            }
+
+            .selected {
+                .orange();
+                .orange_border();
             }
 
             .price_info {
                 padding: 12px 0 10px;
                 font-size: 18px;
+
+                del {
+                    font-size: 14px;
+                    margin-left: 5px;
+                    color: @info_p_gray;
+                }
             }
+
+            
 
             .summary {
                 padding: 30px;
                 background-color: @summary_gray;
-
+                margin-bottom: 30px;
+                font-size: 14px;
+                color: @header_a_gray;
                 p {
                     padding-top: 20px;
                     font-size: 24px;
+                }
+                del {
+                    margin-left: 5px;
                 }
             }
 
             .sale_btn {
 
-
+                margin-bottom: 20px;
                 button {
                     width: 100%;
                     position: relative;

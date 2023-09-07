@@ -20,7 +20,8 @@ const mutations = {
 const state = {
 	// sum:0 //当前的和
 	bc2top_show:false,
-	location_prefix:'http://192.168.1.102:3000'
+	location_prefix:'http://localhost:3000',
+	opts_choosen:new Map()
 }
 
 //创建并暴露store

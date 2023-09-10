@@ -12,7 +12,7 @@
             <div class="col-md-8 p-3  ">
                 <div class="nav_items">
                     <a href="#" v-if="fetched" v-for="item, index of nav_children"
-                        @mouseover="selected = index; staying = true" @mouseleave="staying = false" :key="index">{{
+                        @mouseover="nav_item_over(item,index)" @mouseleave="nav_item_leave(item,index)" :key="index">{{
                             item.title }}</a>
                 </div>
             </div>
@@ -79,6 +79,18 @@ export default {
             selected: 0,
             staying: false,
             fetched: false,
+        }
+    },
+    methods:{
+        nav_item_over(item,index){
+            if(item.title!=='服务中心'&&item.title!=='社区'){
+                this.selected = index;this. staying = true
+            }
+        },
+        nav_item_leave(item,index){
+            if(item.title!=='服务中心'&&item.title!=='社区'){
+                this.staying = false
+            }
         }
     },
     mounted() {

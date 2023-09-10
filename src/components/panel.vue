@@ -3,7 +3,7 @@
         <!-- <slot></slot> -->
         <div class=" p_header">
             <!-- <div class="col-6 left_title"> -->
-                <p>{{ gitem_list.left_title }}</p>
+            <p>{{ gitem_list.left_title }}</p>
 
             <!-- </div> -->
             <div class="d-inline-block float-end">
@@ -24,12 +24,20 @@
             </vue_gitem> -->
             <router-link class="gitem left_banner" href="" :class="{ 'half_left_banner': gitem_list.banner.length === 2 }"
                 :to="{
-                    name: 'product'
+                    name: 'product',
+                    query: {
+                        pid: gitem_list.banner[0].id,
+                        pname: gitem_list.banner[0].name
+                    }
                 }">
                 <img :src="$store.state.location_prefix + gitem_list.banner[0].img_path">
             </router-link>
             <router-link class="gitem left_banner half_left_banner" href="" :to="{
-                name: 'product'
+                name: 'product',
+                query: {
+                    pid: gitem_list.banner[1].id,
+                    pname: gitem_list.banner[1].name
+                }
             }" v-if="gitem_list.banner.length === 2" style="grid-row: 2/span 1;">
                 <img :src="$store.state.location_prefix + gitem_list.banner[1].img_path">
             </router-link>
@@ -40,7 +48,13 @@
                     }" v-if="index===4&& gitem_list.banner.length === 2">
                     <img :src="this.$store.state.location_prefix + gitem_list.banner[1].img_path">
                 </router-link> -->
-                <a class="gitem" href="" v-if="!gitem_list_item.halfs">
+                <router-link class="gitem" :to="{
+                    name: 'product',
+                    query: {
+                        pid: gitem_list_item.id,
+                        pname: gitem_list_item.name
+                    }
+                }" v-if="!gitem_list_item.halfs">
                     <div class="gitem_card">
                         <img :src="$store.state.location_prefix + gitem_list_item.img_path">
                         <h6>{{ gitem_list_item.name }}</h6>
@@ -49,16 +63,39 @@
                             <span>{{ gitem_list_item.price }}元</span>&nbsp;<del>{{ gitem_list_item.old_price }}</del>
                         </div>
                     </div>
-                </a>
+                </router-link>
+
+
+                <!-- <a class="gitem" href="" v-if="!gitem_list_item.halfs">
+                    <div class="gitem_card">
+                        <img :src="$store.state.location_prefix + gitem_list_item.img_path">
+                        <h6>{{ gitem_list_item.name }}</h6>
+                        <p v-html="gitem_list_item.discription"></p>
+                        <div class="price">
+                            <span>{{ gitem_list_item.price }}元</span>&nbsp;<del>{{ gitem_list_item.old_price }}</del>
+                        </div>
+                    </div>
+                </a> -->
                 <div class="last_icon" v-else>
-                    <div class="last_icon_half" v-for="h of gitem_list_item.halfs">
+                    <router-link class="last_icon_half" v-for="h of gitem_list_item.halfs" :to="{
+                        name: 'product',
+                        query: {
+                            pid: h.id,
+                            pname: h.name
+                        }
+                    }">
                         <img :src="$store.state.location_prefix + h.img_path" v-if="h.img_path">
 
                         <p>{{ h.name }}</p>
                         <p v-if="h.price" class="price">{{ h.price }}元</p>
-                        <p v-if="h.more_of_what">浏览更多<br>{{ h.more_of_what }} <i class="fa fa-arrow-circle-o-right"></i></p>
+                        <p v-if="h.more_of_what" class="more">
+                            浏览更多<br>
+                            <small>{{ h.more_of_what }}
+                                <i class="fa fa-arrow-circle-o-right"></i>
+                            </small>
+                        </p>
 
-                    </div>
+                    </router-link>
                     <!-- <div class="last_icon_half" v-if="gitem_list_item.halfs[1]">
                         <p v-html="gitem_list_item.halfs[1].p1"></p>
                         <p v-if="gitem_list_item.halfs[1].p2" v-html="gitem_list_item.halfs[1].p2"></p>
@@ -88,7 +125,9 @@ export default {
     }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
+@title_black: #333;
+@desc_gray: #b0b0b0;
 @media (max-width:700px) {
     .panel {
         div.p_header {
@@ -96,6 +135,7 @@ export default {
                 font-size: 16px;
                 line-height: 1em;
             }
+
             div.right_tabs {
                 // justify-content: left;
 
@@ -115,6 +155,7 @@ export default {
     margin-top: 30px;
 
     .p_header {
+
         // display: flex;
         p {
             display: inline-block;
@@ -126,6 +167,7 @@ export default {
         .right_tabs {
             display: flex;
             justify-content: right;
+
             // float: right;
             a {
                 // @media (max-width:700px) {
@@ -203,12 +245,14 @@ export default {
             }
 
             .last_icon_half {
+                text-decoration: none;
                 text-align: left;
                 position: relative;
                 width: 100%;
                 height: 45%;
                 background-color: white;
                 transition: all .5s linear;
+                color: @title_black;
 
                 &:hover {
                     box-shadow: var(--shadow1);
@@ -239,6 +283,13 @@ export default {
                     color: orange;
                 }
 
+                .more {
+                    font-size: 18px;
+                    small {
+                        font-size:12px;
+                        color:#757575;
+                    }
+                }
             }
         }
 
@@ -280,6 +331,7 @@ export default {
 
                 >p {
                     font-size: 12px;
+                    color: @desc_gray;
                 }
 
                 >.price {

@@ -25,8 +25,8 @@
     <div class="right">
       <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-          <swiper_item v-for="(item, index) in swiper_slide_list" :swiper_slide_item="item" :key="item.index"
-            :class="'slide_' + (index + 1)">
+          <swiper_item v-if="fetched_slide" v-for="(item, index) in swiper_slide_list" :swiper_slide_item="item"
+            :key="item.index" :class="'slide_' + (index + 1)">
           </swiper_item>
         </div>
         <div class="swiper-pagination"></div>
@@ -48,31 +48,32 @@ export default {
   data() {
     return {
       fetched_category: false,
+      fetched_slide: false,
       swiper_slide_list: [
-        {
-          "index": 1,
-          "path": this.$store.state.location_prefix+'/images/slide/slide0.png'
-        },
-        {
-          "index": 2,
+        // {
+        //   "index": 1,
+        //   "path": this.$store.state.location_prefix+'/images/slide/slide0.png'
+        // },
+        // {
+        //   "index": 2,
 
-          "path": this.$store.state.location_prefix+'/images/slide/slide1.png'
-        },
-        {
-          "index": 3,
+        //   "path": this.$store.state.location_prefix+'/images/slide/slide1.png'
+        // },
+        // {
+        //   "index": 3,
 
-          "path": this.$store.state.location_prefix+'/images/slide/slide2.png'
-        },
-        {
-          "index": 4,
+        //   "path": this.$store.state.location_prefix+'/images/slide/slide2.png'
+        // },
+        // {
+        //   "index": 4,
 
-          "path": this.$store.state.location_prefix+'/images/slide/slide3.png'
-        },
-        {
-          "index": 5,
+        //   "path": this.$store.state.location_prefix+'/images/slide/slide3.png'
+        // },
+        // {
+        //   "index": 5,
 
-          "path": this.$store.state.location_prefix+'/images/slide/slide4.png'
-        }
+        //   "path": this.$store.state.location_prefix+'/images/slide/slide4.png'
+        // }
       ],
       // slide_item_list: [
       //   '手机', '电视', '家电', '笔记本 平板', '出行 穿戴', '耳机 音箱', '健康 儿童'
@@ -89,33 +90,43 @@ export default {
   mounted() {
     console.log('mounted')
     // debugger
-    var mySwiper = new Swiper('.mySwiper', {
-      loop: true, // 循环模式选项
-      effect: 'fade',
-      // 如果需要分页器
-      pagination: {
-        el: '.swiper-pagination',
-      },
 
-      // 如果需要前进后退按钮
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      autoplay: {
-        delay: 2000
-      }
 
-      // 如果需要滚动条
-
-    })
-    mySwiper.autoplay.start()
-    console.log(mySwiper)
-
-    fetch(this.$store.state.location_prefix+'/resources/category').then(res => res.json()).then(res => {
-      console.log('this is category:@@@'+res)
+    fetch(this.$store.state.location_prefix + '/resources/category').then(res => res.json()).then(res => {
+      console.log('this is category:@@@' + res)
       this.category_lists = res
       this.fetched_category = true
+    })
+    fetch(this.$store.state.location_prefix + '/resources/slide').then(res => res.json()).then(res => {
+      console.log('this is slide:@@@' + res)
+      this.swiper_slide_list = res
+      this.fetched_slide = true
+      this.$nextTick(() => {
+        debugger
+        var mySwiper = new Swiper('.mySwiper', {
+          loop: true, // 循环模式选项
+          effect: 'fade',
+          // 如果需要分页器
+          pagination: {
+            el: '.swiper-pagination',
+          },
+
+          // 如果需要前进后退按钮
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+          autoplay: {
+            delay: 2000
+          }
+
+          // 如果需要滚动条
+
+        })
+        mySwiper.autoplay.start()
+        console.log(mySwiper)
+      })
+
     })
     // this.slide_menu_list = [this.phone_list]
 
@@ -141,6 +152,7 @@ export default {
 
     .left {
       font-size: 0.5em;
+
       ul {
         li {
           padding: 5px;
@@ -316,4 +328,5 @@ export default {
   }
 
 
-}</style>
+}
+</style>

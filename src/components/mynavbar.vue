@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-8 p-3  ">
                 <div class="nav_items">
-                    <a href="#" v-if="fetched" v-for="item, index of nav_children"
+                    <a href="#" v-show="fetched" v-for="item, index of nav_children"
                         @mouseover="nav_item_over(item,index)" @mouseleave="nav_item_leave(item,index)" :key="index">{{
                             item.title }}</a>
                 </div>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="nav_menu" @mouseover="staying = true" @mouseleave="staying = false" :class="{ 'showing': staying }"
-            v-if="fetched">
+            v-show="fetched">
             <div class="container-xl mx-auto position-relative h-100 d-flex justify-content-between flex-wrap">
                 <router-link class="card h-100  " v-for="item, index of nav_children[selected].children" :key="item.id" :to="{
                     name:'product',

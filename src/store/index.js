@@ -20,7 +20,7 @@ const mutations = {
 const state = {
 	// sum:0 //当前的和
 	bc2top_show:false,
-	location_prefix:'http://localhost:3000',
+	location_prefix:'https://8.140.203.249:3000',
 	opts_choosen:new Map()
 }
 

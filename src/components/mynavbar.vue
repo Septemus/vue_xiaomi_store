@@ -9,14 +9,14 @@
                     <img src="../assets/images/logo-mi2.png" alt="" class="img-fluid  d-block">
                 </div>
             </div>
-            <div class="col-md-8 p-3  ">
+            <div class="col-md-7 p-3  ">
                 <div class="nav_items">
                     <a href="#" v-if="fetched" v-for="item, index of nav_children"
                         @mouseover="nav_item_over(item,index)" @mouseleave="nav_item_leave(item,index)" :key="index">{{
                             item.title }}</a>
                 </div>
             </div>
-            <div class="col-md-2 p-3  text-white">
+            <div class="col-md-3 p-3  text-white">
 
                 <div class="search_box">
                     <input type="text" placeholder="手机" list="search_options"><button><i class="fa fa-search"></i></button>
@@ -53,7 +53,6 @@
                 }">
                     <div>
                         <div class="card-img-top">
-
                             <img class="d-block mx-auto" :src="$store.state.location_prefix + item.img_path">
                         </div>
                         <p>{{ item.name }}</p>
@@ -109,7 +108,6 @@ export default {
 @nav_gray: rgb(224, 224, 224);
 @menu_min_height: 250px;
 @nav_fs: 17px;
-
 .showing {
     min-height: @menu_min_height !important;
     border-bottom: 1px solid @nav_gray;
@@ -190,7 +188,7 @@ export default {
     .mynavbar {
         position: relative;
         margin: 0 auto;
-
+        min-height:100px;
         .nav_items {
             height: 100%;
             display: flex;
@@ -228,16 +226,30 @@ export default {
         }
 
         .search_box {
+            height:100%;
+            display: flex;
+            align-items: center;
             input[type="text"] {
                 width: 80%;
                 float: left;
                 display: inline-block;
+                height:50px;
+                border: solid 1px rgb(224, 224, 224);
             }
 
             button {
                 width: 20%;
                 display: inline-block;
+                color:rgb(97, 97, 97);
+                height:50px;
                 float: left;
+                border: solid 1px rgb(224, 224, 224);
+                background-color: transparent;
+                transition: all .4s ease;
+                &:hover {
+                    background-color: rgb(255,103,0);
+                    color:white;
+                }
             }
         }
 

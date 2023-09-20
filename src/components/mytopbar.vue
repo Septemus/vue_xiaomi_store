@@ -2,9 +2,9 @@
     <div class="mytopbar">
         <div class="container-xl mx-auto row">
 
-            <ul class="mytopbar_ls col-sm-7">
+            <ul class="mytopbar_ls col-sm-8">
                 <li><router-link :to="{
-                    name:'front_page'
+                    name: 'front_page'
                 }">小米商城</router-link></li>
                 <li><a href="#">MIUI</a></li>
                 <li><a href="#">loT</a></li>
@@ -22,43 +22,104 @@
                             <img src="../assets/images/download.png">
                             <p>小米商城APP</p>
                         </a>
-    
-    
+
+
                     </div>
                     <div class="download_qr_traingle">
                     </div>
                 </li>
             </ul>
-            <div class="mycart col-sm-2">
-                <div class="cart_box">
-                    <i class="fa fa-shopping-cart"></i>
-                    购物车
-    
-    
-                </div>
-                <div class="cart_content">
-                    这是购物车的内容
-                </div>
-            </div>
             <ul class="topbar_ls_r col-sm-3">
-                <li><a href="#">登录</a></li>
-                <li><a href="#">注册</a></li>
+                <template v-if="!this.$store.state.username">
+                    <li><a href="javascript:void(0);"
+                            @click="$root.$emit('bv::show::modal', 'myModal'); this.$store.commit('modal', 1)">登录</a></li>
+                    <li><a href="javascript:void(0);"
+                            @click="$root.$emit('bv::show::modal', 'myModal'); this.$store.commit('modal', 2)">注册</a></li>
+                </template>
+                <template v-else>
+                    <li>
+                        <a href="javascript:void(0);">
+                            欢迎用户{{ this.$store.state.username }}
+                        </a>
+                    </li>
+                    <li>
+                        <router-link :to="{
+                            name: 'homepage',
+                        }">
+                            个人中心
+                        </router-link>
+                    </li>
+                </template>
                 <li><a href="#">消息通知</a></li>
             </ul>
-        </div>
+            <div class="mycart col-sm-1">
+                <a class="cart_box" @mouseover="show_cart = true" @mouseleave="show_cart = false">
+                    <i class="fa fa-shopping-cart"></i>
+                    购物车
+                </a>
+                <Transition name="cart">
+                    <div class="cart_content" v-if="show_cart" @mouseover="show_cart = true" @mouseleave="show_cart = false">
+                        <div class="mySpinner" v-if="!cart_fetched">
+                            <b-spinner type="grow" label="Spinning" class=""></b-spinner>
+                        </div>
+                        <div class="cart_list" v-else>
+                            <ul>
+                                <li>
+                                    <img src="../assets/logo.png" alt="">
+                                    <p class="cart_item_name">商品名称</p>
+                                    <p class="cart_item_price">价格*数量</p>
 
+                                </li>
+                                <li>
+                                    <img src="../assets/logo.png" alt="">
+                                    <p class="cart_item_name">商品名称</p>
+                                    <p class="cart_item_price">价格*数量</p>
+
+                                </li>
+                                <li>
+                                    <img src="../assets/logo.png" alt="">
+                                    <p class="cart_item_name">商品名称</p>
+                                    <p class="cart_item_price">价格*数量</p>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </Transition>
+            </div>
+
+        </div>
     </div>
 </template>
 <script>
 export default {
-    name: 'mytopbar'
+    name: 'mytopbar',
+    data() {
+        return {
+            show_cart: false,
+            cart_fetched:false
+        }
+    },
+    watch:{
+        show_cart(val) {
+            if(val){
+                setTimeout(()=>{
+                    this.cart_fetched=true
+                },2000)
+            }
+            else {
+                this.cart_fetched=false
+            }
+        }
+    }
 }
 </script>
     
 <style lang="less">
-@mytopbar_fs:12px;
-@media (max-width:700px) {
- 
+@mytopbar_fs: 12px;
+@cart_height:100px;
+@media (max-width:1024px) {
+
     .mytopbar {
         display: none !important;
     }
@@ -72,49 +133,101 @@ export default {
     .mycart {
         /* float: right; */
         /* margin-left: 30px; */
-        color: #fff;
+        // color: #fff;
         position: relative;
-        padding: 20px 0;
-        background-color: rgb(66, 66, 66);
+        padding: 0;
+        background-color: rgb(255, 103, 0);
 
         &:hover {
-            background-color: white;
-            color: orange;
+            .cart_box {
+                color: rgb(255, 103, 0);
+                background-color: white;
 
-            .cart_content {
-                /* color: aliceblue; */
-                /* display: block; */
-                padding: 15px 20px;
-                height: fit-content;
-                overflow: visible;
             }
         }
 
         /* display: flex; */
         .cart_box {
-            padding: 0 30px;
+            padding: 0 10px;
+            // width:120px;
+            // text-align: center;
             cursor: pointer;
+            display: block;
             /* align-items: center; */
             margin: auto 0;
             /* height: 100%; */
             font-size: @mytopbar_fs;
+            color: white;
         }
 
         .cart_content {
+            padding: 0;
+            margin: 0;
+            .mySpinner {
+                color:rgb(255, 103, 0);
+                display: block;
+                position: absolute;
+                top:50%;
+                left:50%;
+                transform: translate(-50%,-50%);
+            }
+            ul {
+                padding: 0;
+                margin: 0;
+                li {
+                    display: flex;
+                    padding: 0;
+                    margin: 0;
+                    position: relative;
+                    list-style-type: none;
+                    height:@cart_height;
+                    border: solid 1px black;
+                    align-items: center;
+                    img {
+                        width:50px;
+                        height:auto;
+                    }
+                    p {
+                        padding: 0;
+                        margin: 0;
+                    }
+                    .cart_item_price {
+                        position: absolute;
+                        right:10px;
+                        top:50%;
+                        transform: translateY(-50%);
+                    }
+                }
+            }
             background-color: #fff;
-            z-index: 10;
+            z-index: 1000;
             /* height: 0px; */
             box-shadow: var(--shadow1);
             color: black;
             position: absolute;
             /* padding: 10px 20px; */
             /* min-width: 150px; */
-            transition: 0.5s ease;
+            transition: all 0.5s ease;
+            transition-delay: .2s;
             right: 0;
-            height: 0px;
+            width: 316px;
+            // min-height: 200px;
+            // max-height: 500px;
+            // height:0px;
+            min-height: @cart_height;
             overflow: hidden;
         }
-
+        .cart-enter,.cart-leave-to {
+            height:0px;
+            min-height: 0px;
+        }
+        .cart-leave,.cart-enter-to {
+            // height:200px;
+            min-height: @cart_height;
+        }
+        .cart-enter-active,.cart-leave-active {
+            transition: all .5s ease;
+        }
     }
 
     // .topbar {
@@ -230,16 +343,20 @@ export default {
     }
 
     a {
+        display: inline-block;
         text-decoration: none;
         color: var(--topbar_color);
         font-size: @mytopbar_fs;
+        height: 40px;
+        line-height: 40px;
     }
 
     .topbar_ls_r {
         list-style-type: none;
         margin: auto 0;
         text-align: center;
-        display: block;
+        display: flex;
+        justify-content: flex-end;
 
         li {
             /* float: left; */
@@ -252,5 +369,4 @@ export default {
             }
         }
     }
-}
-</style>
+}</style>

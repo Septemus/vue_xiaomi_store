@@ -1,20 +1,18 @@
 <template>
   <div id="app">
-    
-    
-    <mobile_side_panel/>
+
+
+    <mobile_side_panel />
     <mytopbar></mytopbar>
     <mynavbar></mynavbar>
-
-    <router-view></router-view> 
+    <myModal></myModal>
+    <router-view></router-view>
     <!-- <mynavbar></mynavbar>
     <disp></disp>
     <advertisement></advertisement>
     <div class="clear_fix">
     </div>
     <product_area></product_area> -->
-
-
     <bottom_area></bottom_area>
     <post_area></post_area>
     <side_panel></side_panel>
@@ -33,12 +31,22 @@ import mytopbar from './components/mytopbar.vue'
 import bottom_area from './components/bottom_area.vue'
 import post_area from './components/post_area.vue'
 import side_panel from './components/side_panel.vue'
+import myModal from './components/myModal.vue'
+import verify_token from './assets/js/verify_token'
 export default {
   name: 'App',
   components: {
-    mynavbar,mobile_side_panel,mytopbar,bottom_area,post_area,side_panel
+    mynavbar, mobile_side_panel, mytopbar, bottom_area, post_area, side_panel,myModal
   },
-  mixins:[bc2top]
+  mixins: [bc2top],
+  mounted() {
+    window.onerror = function (message, source, line, column, error) {
+      // do something
+      console.log('err captured!')
+      return false
+    };
+    verify_token.apply(this)
+  }
 }
 
 

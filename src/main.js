@@ -15,7 +15,9 @@ import 'font-awesome/css/font-awesome.min.css'
 
 
 Vue.config.productionTip = false
-
+Vue.config.errorHandler=(err)=>{
+  console.log(err)
+}
 var vue=new Vue({
   render: h => h(App),
   store,

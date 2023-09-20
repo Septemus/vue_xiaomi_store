@@ -37,7 +37,10 @@
                 </div>
                 <div class="col-md-6 info">
                     <h2>{{ this.pname??this.$route.query.pname }}</h2>
-                    <p class="info_p_gray">{{ this.description }}</p>
+                    <p class="info_p_gray">
+                    <span class="orange">
+                        {{ this.desc_pre }}
+                    </span>  {{ this.description }}</p>
                     <p class="orange">小米自营</p>
                     <div class="price_info orange">
                         <span>{{ this.price }}元</span>
@@ -55,7 +58,17 @@
                     </div>
                     <div class="sale_btn row">
                         <a href="" class="col-md-6 d-block">
-                            <button class="cart_btn"><span>加入购物车</span></button>
+                            <router-link :to="{
+                                name:'cart_success',
+                                query:{
+                                    pname:pname??$route.query.pname,
+                                    mychoices:JSON.stringify(mychoices) ,
+                                    price:price
+                                }
+                            }">
+                                <button class="cart_btn" @click="addCart"><span>加入购物车</span></button>
+
+                            </router-link>
                         </a>
                         <a href="" class="col-md-6 d-block">
                             <button class="like_btn"> <span><i class="fa fa-heart-o" aria-hidden="true"></i>喜欢</span>
@@ -92,6 +105,7 @@ import Swiper from 'swiper'; // 注意引入的是Swiper
 import option_box from '../components/option_box.vue'
 import "swiper/swiper-bundle.min.css"
 import "swiper/bundle"
+import { RouterLink } from 'vue-router';
 export default {
     data() {
         return {
@@ -99,6 +113,7 @@ export default {
             pname: undefined,
             product_swiper_slide_list: [
             ],
+            desc_pre:'',
             description: '',
             min_price: 0,
             min_old_price: 0,
@@ -111,8 +126,9 @@ export default {
         }
     },
     components:{
-        option_box
-    }
+    option_box,
+    RouterLink
+}
     ,
     computed: {
         price() {
@@ -160,6 +176,9 @@ export default {
         },
     },
     methods: {
+        addCart() {
+
+        },
         reload() {
             this.mychoices=new Map()
             this.product_swiper_slide_list.splice(0, this.product_swiper_slide_list.length)
@@ -184,6 +203,7 @@ export default {
                 });
                 // console.log(res[1].data)
                 this.pname=res[0].data[0].pname
+                this.desc_pre=res[0].data[0].desc_pre
                 this.description = res[0].data[0].description
                 this.min_price = res[0].data[0].min_price
                 this.min_old_price = res[0].data[0].min_old_price ?? undefined

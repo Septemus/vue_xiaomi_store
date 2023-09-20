@@ -1,7 +1,7 @@
 <template>
-  <div class="advertisement container-lg p-0 ">
+  <div class="advertisement container-xl p-0 ">
     <div class="rowbox row m-0">
-      <div class="leftbox col-md-4 p-0">
+      <div class="leftbox col-md-2 p-0">
         <div class="ad_left">
 
           <a class="with_right_line" href=""><i class="fa fa-clock-o"></i>
@@ -25,7 +25,7 @@
 
         </div>
       </div>
-      <div class="rightbox col-md-8 p-0">
+      <div class="rightbox col-md-10 p-0">
         <div class="ad_right">
           <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad1.png'"></div>
           <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad2.png'"></div>

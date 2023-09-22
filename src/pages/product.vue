@@ -170,7 +170,7 @@ export default {
 
             // console.log(this.pid)
             // console.log(this.pname)
-            window.alert('fetching', this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`)
+            // window.alert('fetching', this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`)
             console.log('fetching', this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`)
             fetch(this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`).then(res => {
                 // console.log(res)

@@ -5,7 +5,7 @@
             <div class="container-xl">
                 <div class="row mb-1">
                     <div class="col-md-6">
-                        <h2 class="m-0">{{ this.pname??this.$route.query.pname }}</h2>
+                        <h2 class="m-0">{{ this.pname?this.pname:this.$route.query.pname }}</h2>
                     </div>
                     <div class="col-md-6">
                         <ul>
@@ -36,7 +36,7 @@
                     <div class="swiper-button-prev" v-show="product_swiper_slide_list.length>1"></div>
                 </div>
                 <div class="col-md-6 info">
-                    <h2>{{ this.pname??this.$route.query.pname }}</h2>
+                    <h2>{{ this.pname?this.pname:this.$route.query.pname }}</h2>
                     <p class="info_p_gray">{{ this.description }}</p>
                     <p class="orange">小米自营</p>
                     <div class="price_info orange">
@@ -48,7 +48,7 @@
                         <option_box v-for="opt of options" :opt="opt" @choose="getChoice"></option_box>
                     </div>
                     <div class="summary">
-                        <span class="d-inline-block w-75">{{ this.pname??this.$route.query.pname }} {{this.opt_string}}</span>
+                        <span class="d-inline-block w-75">{{ this.pname?this.pname:this.$route.query.pname }} {{this.opt_string}}</span>
                         <del class="float-end" v-if="min_old_price">{{ this.old_price }}元</del>
                         <span class="float-end">{{ this.price }}元</span> 
                         <p class="orange">总计：{{ this.price }}元</p>
@@ -170,6 +170,7 @@ export default {
 
             // console.log(this.pid)
             // console.log(this.pname)
+            window.alert('fetching', this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`)
             console.log('fetching', this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`)
             fetch(this.$store.state.location_prefix + `/resources/detail?pid=${this.pid}`).then(res => {
                 // console.log(res)
@@ -186,7 +187,7 @@ export default {
                 this.pname=res[0].data[0].pname
                 this.description = res[0].data[0].description
                 this.min_price = res[0].data[0].min_price
-                this.min_old_price = res[0].data[0].min_old_price ?? undefined
+                this.min_old_price = res[0].data[0].min_old_price ?res[0].data[0].min_old_price : undefined
                 for (let item of res[1].data) {
                     let tmp = { path: this.$store.state.location_prefix + item.img_path }
                     // console.log(tmp)

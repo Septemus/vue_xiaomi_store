@@ -5,6 +5,7 @@
             <div class="choice_item" v-for="c,index of opt.carr">
                 <a href="javascript:void(0);" :class="{ 'selected': choice_selected === index }"
                     @click.prevent="choice_selected = index;">{{c.choice_name}}</a>
+                    
             </div>
             
         </div>

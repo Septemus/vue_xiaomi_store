@@ -102,7 +102,7 @@ export default {
       this.swiper_slide_list = res
       this.fetched_slide = true
       this.$nextTick(() => {
-        debugger
+        // debugger
         var mySwiper = new Swiper('.mySwiper', {
           loop: true, // 循环模式选项
           effect: 'fade',
@@ -134,6 +134,7 @@ export default {
 }
 </script>
 <style lang="less">
+@left_ratio:16.67%;
 @media (max-width:700px) {
 
 
@@ -230,7 +231,7 @@ export default {
     height: 100%;
     float: left;
     padding: 20px 0px;
-    width: 20%;
+    width: @left_ratio;
     margin: 0;
     position: absolute;
     left: 0;
@@ -281,14 +282,14 @@ export default {
       --swiper-pagination-color: rgb(124, 124, 124);
 
       .swiper-button-prev {
-        left: 20%;
+        left: @left_ratio;
         /* top: 0; */
         position: absolute;
       }
 
       .swiper-pagination {
         position: absolute;
-        left: 20%;
+        left: @left_ratio;
         width: 80%;
       }
 

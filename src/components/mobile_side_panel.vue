@@ -1,7 +1,7 @@
 <template>
   <div class="mobile_side_panel">
     <div>
-      <b-navbar toggleable="lg" type="dark" variant="dark" >
+      <b-navbar toggleable="lg" type="dark" variant="dark">
         <b-navbar-brand href="#"><img src="../assets/images/logo-mi2.png" alt="" class="w-25  d-block"></b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -18,12 +18,27 @@
             <b-nav-item href="#">售后服务</b-nav-item>
             <b-nav-item href="#">人工客服</b-nav-item>
             <b-nav-item href="#">购物车</b-nav-item>
-            <b-nav-item href="#">登录/注册</b-nav-item>
+            <template  v-if="!this.$store.state.username">
+              <b-nav-item href="#" @click="$root.$emit('bv::show::modal','myModal');$store.commit('modal',1)">登录</b-nav-item>
+              <b-nav-item href="#" @click="$root.$emit('bv::show::modal','myModal');$store.commit('modal',2)">注册</b-nav-item>
+            </template>
+            <template v-else>
+              <b-nav-item href="#">
+                欢迎用户{{ this.$store.state.username }}
+              </b-nav-item>
+              <router-link :to="{
+                name:'homepage'
+              }">
+                <b-nav-item href="#/homepage">
+                  个人中心
+                </b-nav-item>
+              </router-link>
+            </template>
             <b-nav-item href="#" class="bc2top" v-show="$store.state.bc2top_show">回到顶部</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
-          
+
         </b-collapse>
       </b-navbar>
     </div>
@@ -38,8 +53,7 @@ export default {
 </script>
 
 <style lang="less">
-
-@media (max-width:700px) { 
+@media (max-width:1024px) {
   .mobile_side_panel {
     display: block !important;
     position: sticky;
@@ -47,8 +61,13 @@ export default {
     z-index: 1080;
   }
 }
+
 .mobile_side_panel {
   display: none;
+  #nav-collapse {
+    a {
+      text-decoration: none;
+    }
+  }
 }
-
 </style>

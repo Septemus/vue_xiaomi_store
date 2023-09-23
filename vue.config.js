@@ -3,6 +3,7 @@ module.exports = {
   transpileDependencies: true,
   lintOnSave:false,
   publicPath:'./',
+  outputDir:'dist',
   devServer:{
     client:{
       overlay:false

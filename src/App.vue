@@ -32,7 +32,6 @@ import bottom_area from './components/bottom_area.vue'
 import post_area from './components/post_area.vue'
 import side_panel from './components/side_panel.vue'
 import myModal from './components/myModal.vue'
-import verify_token from './assets/js/verify_token'
 export default {
   name: 'App',
   components: {
@@ -45,7 +44,6 @@ export default {
       console.log('err captured!')
       return false
     };
-    verify_token.apply(this)
   }
 }
 

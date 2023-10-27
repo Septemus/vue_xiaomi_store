@@ -130,6 +130,7 @@
 </template>
   
 <script>
+import {mapState} from 'vuex'
 export default {
     name: 'myModal',
     data() {
@@ -157,14 +158,15 @@ export default {
         },
         password_legal() {
             return /^\w{6,20}$/.test(this.password)
-        }
+        },
+        ...mapState(['location_prefix','userid'])
     },
     methods: {
-        status_success(description,uname,token) {
-            window.localStorage.setItem('token',token)
-            this.$store.dispatch('setUserinfo',{
-                userid:this.id,
-                username:uname
+        status_success(description, uname, token) {
+            window.localStorage.setItem('token', token)
+            this.$store.dispatch('setUserinfo', {
+                userid: this.id,
+                username: uname
             })
             this.loading = false
             this.status_description = description
@@ -226,7 +228,7 @@ export default {
                                     this.status_failure('用户已经存在！')
                                 }
                                 else {
-                                    this.status_success(`注册成功！欢迎新用户${res.name}`,res.name,res.token)
+                                    this.status_success(`注册成功！欢迎新用户${res.name}`, res.name, res.token)
 
                                 }
 
@@ -281,7 +283,7 @@ export default {
                                     //     this.disp_loading = false
                                     //     this.modal_close()
                                     // }, 1500)
-                                    this.status_success(`登陆成功！欢迎用户${res.name}`,res.name,res.token)
+                                    this.status_success(`登陆成功！欢迎用户${res.name}`, res.name, res.token)
                                 }
                                 else {
                                     // this.disp_failure = true

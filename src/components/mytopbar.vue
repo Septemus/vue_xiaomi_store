@@ -49,6 +49,11 @@
                             个人中心
                         </router-link>
                     </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            注销
+                        </a>
+                    </li>
                 </template>
                 <li><a href="#">消息通知</a></li>
             </ul>
@@ -57,59 +62,140 @@
                     <i class="fa fa-shopping-cart"></i>
                     购物车
                 </a>
-                <Transition name="cart">
-                    <div class="cart_content" v-if="show_cart" @mouseover="show_cart = true" @mouseleave="show_cart = false">
-                        <div class="mySpinner" v-if="!cart_fetched">
-                            <b-spinner type="grow" label="Spinning" class=""></b-spinner>
-                        </div>
-                        <div class="cart_list" v-else>
-                            <ul>
-                                <li>
-                                    <img src="../assets/logo.png" alt="">
-                                    <p class="cart_item_name">商品名称</p>
-                                    <p class="cart_item_price">价格*数量</p>
-
-                                </li>
-                                <li>
-                                    <img src="../assets/logo.png" alt="">
-                                    <p class="cart_item_name">商品名称</p>
-                                    <p class="cart_item_price">价格*数量</p>
-
-                                </li>
-                                <li>
-                                    <img src="../assets/logo.png" alt="">
-                                    <p class="cart_item_name">商品名称</p>
-                                    <p class="cart_item_price">价格*数量</p>
-
-                                </li>
-                            </ul>
-                        </div>
+                <!-- <Transition name="cart"> -->
+                <div class="cart_content" @mouseover="show_cart = true" @mouseleave="show_cart = false" ref="cart_content">
+                    <div class="mySpinner" v-if="!cart_fetched">
+                        <b-spinner type="grow" label="Spinning" class=""></b-spinner>
                     </div>
-                </Transition>
+                    <div class="cart_list" v-else>
+                        <ul v-if="userid&&cart_list.length">
+                            <li v-for="cart_item of cart_list">
+                                <img :src="location_prefix + cart_item.img_cover" alt="">
+                                <router-link :to="{
+                                    name: 'product',
+                                    query: {
+                                        pid: cart_item.detail.id
+                                    }
+                                }">
+
+                                    <p class="cart_item_name">{{ namePlusChoices(cart_item) }}</p>
+                                </router-link>
+                                <p class="cart_item_price">{{ cart_item.price }}*{{ cart_item.quantity }}</p>
+                            </li>
+                        </ul>
+                        <div class="no_item" v-else-if="userid&&!cart_list.length">
+                            购物车中无商品
+                        </div>
+                        <div class="unlogged" v-else-if="!userid">
+                            请先登录！
+                        </div>
+
+                    </div>
+                </div>
+                <!-- </Transition> -->
             </div>
 
         </div>
     </div>
 </template>
 <script>
+import verify_token from '../assets/js/verify_token'
+import cart_fetching from '../assets/js/cart_fetching'
+import { mapState } from 'vuex'
 export default {
     name: 'mytopbar',
     data() {
         return {
             show_cart: false,
-            cart_fetched:false
+            cart_fetched: false,
+            // cart_list: [],
+            loadedImg: 0,
+            timer1: null,
+            timer2: null,
+            timer3:null
         }
     },
-    watch:{
+    methods: {
+        loadImg() {
+
+            ++this.loadedImg
+            console.log('one of image of cart loaded!@@')
+            if (this.cart_list && this.cart_list.length === this.loadedImg) {
+                this.timer2 = setTimeout(() => {
+                    this.cart_fetched = true
+                    this.$refs.cart_content.style.height = 'auto'
+                }, 700)
+            }
+        },
+        namePlusChoices(item) {
+            let ret = item.detail.pname
+            for (let c of item.choices) {
+                ret += ' ' + c.choice_name
+            }
+            return ret
+        }
+    },
+    computed: {
+        ...mapState(['location_prefix', 'userid', 'cart_list']),
+    },
+    watch: {
         show_cart(val) {
-            if(val){
-                setTimeout(()=>{
-                    this.cart_fetched=true
-                },2000)
+            if (!val) {
+                console.log('left')
+                if (this.timer2) clearTimeout(this.timer2)
+                console.log(this.$refs.cart_content.clientHeight)
+                this.$refs.cart_content.style.height = this.$refs.cart_content.clientHeight + 'px'
+                this.timer3=setTimeout(()=>{
+                    this.$refs.cart_content.style = ''
+                },10)
+                // this.$nextTick(() => {
+                //     this.$refs.cart_content.style = ''
+                // })
+                this.loadedImg = 0
+                this.timer1 = setTimeout(() => {
+                    this.cart_fetched = false
+                }, 700)
             }
             else {
-                this.cart_fetched=false
+                console.log('enter')
+                console.log("showing cart content!@@")
+                console.log('clear to1!@@')
+                if (this.timer1) clearTimeout(this.timer1)
+                if (this.timer3) clearTimeout(this.timer3)
+                if (this.userid) {
+                    cart_fetching.apply(this).then((cart_list) => {
+                        // debugger
+                        this.$store.commit('cart_list', cart_list)
+                        if (this.cart_list.length) {
+                            for (let cart_item of this.cart_list) {
+                                let img = new Image()
+                                img.onload = this.loadImg
+                                img.src = this.location_prefix + cart_item.img_cover
+                            }
+                        }
+                        else {
+                            this.timer2 = setTimeout(() => {
+                                this.cart_fetched = true
+                            }, 700)
+                        }
+                    })
+                }
+                else {
+                    this.timer2 = setTimeout(() => {
+                        this.cart_fetched = true
+                    }, 700)
+                }
             }
+        }
+    },
+    async mounted() {
+        if (await verify_token.apply(this)) {
+            cart_fetching.apply(this)
+                .then((cart_list) => {
+                    // debugger
+                    this.$store.commit('cart_list', cart_list)
+                    console.log('commiting to vuex successful!@@')
+                })
         }
     }
 }
@@ -117,7 +203,7 @@ export default {
     
 <style lang="less">
 @mytopbar_fs: 12px;
-@cart_height:100px;
+@cart_height: 100px;
 @media (max-width:1024px) {
 
     .mytopbar {
@@ -158,47 +244,81 @@ export default {
             /* height: 100%; */
             font-size: @mytopbar_fs;
             color: white;
+
+            &:hover {
+                +.cart_content {
+                    // min-height: @cart_height;
+                    // min-height: @cart_height;
+                    height: @cart_height;
+                }
+            }
         }
 
         .cart_content {
             padding: 0;
             margin: 0;
+
+            &:hover {
+                // min-height: @cart_height;
+                height: @cart_height;
+            }
+
             .mySpinner {
-                color:rgb(255, 103, 0);
+                color: rgb(255, 103, 0);
                 display: block;
                 position: absolute;
-                top:50%;
-                left:50%;
-                transform: translate(-50%,-50%);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
+
             ul {
                 padding: 0;
+                width: 100%;
                 margin: 0;
+
                 li {
+                    height: @cart_height;
                     display: flex;
                     padding: 0;
                     margin: 0;
                     position: relative;
                     list-style-type: none;
-                    height:@cart_height;
+
+
+                    height: @cart_height;
+
                     border: solid 1px black;
                     align-items: center;
+
                     img {
-                        width:50px;
-                        height:auto;
+                        width: 50px;
+                        height: auto;
                     }
+
                     p {
                         padding: 0;
                         margin: 0;
                     }
+
+                    a {
+                        text-decoration: none;
+
+                        .cart_item_name {
+                            font-size: 12px;
+                            color: rgb(66, 66, 66);
+                        }
+                    }
+
                     .cart_item_price {
                         position: absolute;
-                        right:10px;
-                        top:50%;
+                        right: 10px;
+                        top: 50%;
                         transform: translateY(-50%);
                     }
                 }
             }
+
             background-color: #fff;
             z-index: 1000;
             /* height: 0px; */
@@ -207,27 +327,34 @@ export default {
             position: absolute;
             /* padding: 10px 20px; */
             /* min-width: 150px; */
-            transition: all 0.5s ease;
+            transition: all .5s ease;
             transition-delay: .2s;
             right: 0;
             width: 316px;
             // min-height: 200px;
             // max-height: 500px;
-            // height:0px;
-            min-height: @cart_height;
+            height:0;
+            // min-height: 0;
             overflow: hidden;
         }
-        .cart-enter,.cart-leave-to {
-            height:0px;
-            min-height: 0px;
-        }
-        .cart-leave,.cart-enter-to {
-            // height:200px;
-            min-height: @cart_height;
-        }
-        .cart-enter-active,.cart-leave-active {
-            transition: all .5s ease;
-        }
+
+        // .cart-enter,
+        // .cart-leave-to {
+        //     // height: 0px;
+        //     min-height: 0px;
+        // }
+
+        // .cart-leave,
+        // .cart-enter-to {
+        //     // height:200px;    
+        //     min-height: @cart_height;
+        // }
+
+        // .cart-enter-active,
+        // .cart-leave-active {
+        //     transition: all 1s ease;
+        //     transition-delay: .2s;
+        // }
     }
 
     // .topbar {
@@ -369,4 +496,5 @@ export default {
             }
         }
     }
-}</style>
+}
+</style>

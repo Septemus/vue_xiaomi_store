@@ -179,9 +179,9 @@ export default {
     z-index: 100;
     position: absolute;
     // display: none;
-    left: 20%;
+    left: @left_ratio;
     top: 0%;
-    width: 80%;
+    width: 100%-@left_ratio;
     height: 100%;
     background-color: white;
     box-shadow: var(--shadow1);

@@ -165,8 +165,8 @@ export default {
         status_success(description, uname, token) {
             window.localStorage.setItem('token', token)
             this.$store.dispatch('setUserinfo', {
-                userid: this.id,
-                username: uname
+                uid: this.id,
+                uname
             })
             this.loading = false
             this.status_description = description

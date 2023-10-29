@@ -49,26 +49,21 @@
 </template>
 <script>
 import { RouterView } from 'vue-router';
+import { mapActions, mapState } from 'vuex';
 // import verify_token from '../assets/js/verify_token'
 import verify_mixin from '../assets/js/verify_mixin.js'
 export default {
-    mixins:[verify_mixin],
+    mixins: [verify_mixin],
     name: 'homepage',
     components: { RouterView },
-    // beforeRouteEnter(to, from, next) {
-    //     debugger
-    //     next(async (vm) => {
-    //         if (await verify_token.apply(vm)) {
-    //             return true
-    //         }
-    //         else {
-    //             vm.$router.push({
-    //                 name: 'front_page'
-    //             })
-    //         }
-
-    //     })
-    // },
+    computed: {
+        ...mapState(['location_prefix','userid'])
+    },
+    methods:{
+        ...mapActions(['setUserinfo'])
+    },
+    mounted() {
+    }
 }
 </script>
 <style lang="less">
@@ -147,4 +142,5 @@ export default {
 
     }
 
-}</style>
+}
+</style>

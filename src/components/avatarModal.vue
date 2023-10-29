@@ -19,7 +19,7 @@
         </template>
         <template v-else>
             <div class="alterAvatar">
-                <img :src="avatar_path" alt="当前头像" :ref="'avatar'" id="Avatar">
+                <img :src="computed_path" alt="当前头像" :ref="'avatar'" id="Avatar">
             </div>
             <div class="alterBt">
                 <button @click="reupload">重新上传</button>
@@ -38,7 +38,14 @@ import { mapState } from 'vuex';
 export default {
     name: 'avatarModal',
     computed: {
-        ...mapState(['avatar_path']),
+        ...mapState(['avatar_path','location_prefix']),
+        computed_path() {
+            return this.avatar_path.length>300
+            ?
+            this.avatar_path
+            :
+            this.location_prefix+this.avatar_path
+        }
     },
     data() {
         return {

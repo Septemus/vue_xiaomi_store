@@ -23,7 +23,7 @@
               <b-nav-item href="#" @click="$root.$emit('bv::show::modal','myModal');$store.commit('modal',2)">注册</b-nav-item>
             </template>
             <template v-else>
-              <b-nav-item href="#">
+              <b-nav-item href="javascript:void(0);">
                 欢迎用户{{ this.$store.state.username }}
               </b-nav-item>
               <router-link :to="{
@@ -33,6 +33,7 @@
                   个人中心
                 </b-nav-item>
               </router-link>
+              <b-nav-item href="#">退出账号</b-nav-item>
             </template>
             <b-nav-item href="#" class="bc2top" v-show="$store.state.bc2top_show">回到顶部</b-nav-item>
           </b-navbar-nav>
@@ -53,7 +54,7 @@ export default {
 </script>
 
 <style lang="less">
-@media (max-width:1024px) {
+@media (max-width:1280px) {
   .mobile_side_panel {
     display: block !important;
     position: sticky;

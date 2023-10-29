@@ -2,7 +2,7 @@
     <div class="mytopbar">
         <div class="container-xl mx-auto row">
 
-            <ul class="mytopbar_ls col-sm-8">
+            <ul class="mytopbar_ls col-sm-7">
                 <li><router-link :to="{
                     name: 'front_page'
                 }">小米商城</router-link></li>
@@ -29,12 +29,10 @@
                     </div>
                 </li>
             </ul>
-            <ul class="topbar_ls_r col-sm-3">
+            <ul class="topbar_ls_r col-sm-4">
                 <template v-if="!this.$store.state.username">
-                    <li><a href="javascript:void(0);"
-                            @click="$root.$emit('bv::show::modal', 'myModal'); this.$store.commit('modal', 1)">登录</a></li>
-                    <li><a href="javascript:void(0);"
-                            @click="$root.$emit('bv::show::modal', 'myModal'); this.$store.commit('modal', 2)">注册</a></li>
+                    <li><a href="javascript:void(0);" @click="$store.dispatch('modal', 1)">登录</a></li>
+                    <li><a href="javascript:void(0);" @click="$store.dispatch('modal', 2)">注册</a></li>
                 </template>
                 <template v-else>
                     <li>
@@ -50,8 +48,8 @@
                         </router-link>
                     </li>
                     <li>
-                        <a href="javascript:void(0);">
-                            注销
+                        <a href="javascript:void(0);" @click="logout">
+                            退出账号
                         </a>
                     </li>
                 </template>
@@ -68,7 +66,7 @@
                         <b-spinner type="grow" label="Spinning" class=""></b-spinner>
                     </div>
                     <div class="cart_list" v-else>
-                        <ul v-if="userid&&cart_list.length">
+                        <ul v-if="userid && cart_list.length">
                             <li v-for="cart_item of cart_list">
                                 <img :src="location_prefix + cart_item.img_cover" alt="">
                                 <router-link :to="{
@@ -83,7 +81,7 @@
                                 <p class="cart_item_price">{{ cart_item.price }}*{{ cart_item.quantity }}</p>
                             </li>
                         </ul>
-                        <div class="no_item" v-else-if="userid&&!cart_list.length">
+                        <div class="no_item" v-else-if="userid && !cart_list.length">
                             购物车中无商品
                         </div>
                         <div class="unlogged" v-else-if="!userid">
@@ -101,7 +99,7 @@
 <script>
 import verify_token from '../assets/js/verify_token'
 import cart_fetching from '../assets/js/cart_fetching'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
     name: 'mytopbar',
     data() {
@@ -112,10 +110,11 @@ export default {
             loadedImg: 0,
             timer1: null,
             timer2: null,
-            timer3:null
+            timer3: null
         }
     },
     methods: {
+        ...mapActions(['setUserinfo']),
         loadImg() {
 
             ++this.loadedImg
@@ -133,6 +132,17 @@ export default {
                 ret += ' ' + c.choice_name
             }
             return ret
+        },
+        logout() {
+            this.setUserinfo({
+                uid: null,
+                uname: null
+            })
+            window.localStorage.removeItem('token')
+            console.log('当前路径：@@',this.$route.path)
+            this.$router.push({
+                name: 'front_page'
+            })
         }
     },
     computed: {
@@ -145,9 +155,9 @@ export default {
                 if (this.timer2) clearTimeout(this.timer2)
                 console.log(this.$refs.cart_content.clientHeight)
                 this.$refs.cart_content.style.height = this.$refs.cart_content.clientHeight + 'px'
-                this.timer3=setTimeout(()=>{
+                this.timer3 = setTimeout(() => {
                     this.$refs.cart_content.style = ''
-                },10)
+                }, 10)
                 // this.$nextTick(() => {
                 //     this.$refs.cart_content.style = ''
                 // })
@@ -204,7 +214,7 @@ export default {
 <style lang="less">
 @mytopbar_fs: 12px;
 @cart_height: 100px;
-@media (max-width:1024px) {
+@media (max-width:1280px) {
 
     .mytopbar {
         display: none !important;

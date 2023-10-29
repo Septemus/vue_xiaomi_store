@@ -6,6 +6,7 @@
     <mytopbar></mytopbar>
     <mynavbar></mynavbar>
     <myModal></myModal>
+    <stateModal></stateModal>
     <router-view></router-view>
     <!-- <mynavbar></mynavbar>
     <disp></disp>
@@ -32,10 +33,11 @@ import bottom_area from './components/bottom_area.vue'
 import post_area from './components/post_area.vue'
 import side_panel from './components/side_panel.vue'
 import myModal from './components/myModal.vue'
+import stateModal from './components/stateModal.vue'
 export default {
   name: 'App',
   components: {
-    mynavbar, mobile_side_panel, mytopbar, bottom_area, post_area, side_panel,myModal
+    mynavbar, mobile_side_panel, mytopbar, bottom_area, post_area, side_panel,myModal,stateModal
   },
   mixins: [bc2top],
   mounted() {

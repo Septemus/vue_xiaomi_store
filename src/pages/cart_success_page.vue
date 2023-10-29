@@ -22,30 +22,57 @@
 
             <h2 class="rec_title">
                 <span>买购物车中商品的人还买了</span>
-
             </h2>
         </div>
     </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import verify_mixin from '../assets/js/verify_mixin';
 export default {
     mixins: [verify_mixin],
     name: 'homepage',
     components: {},
+    computed: {
+        ...mapState(['location_prefix', 'userid'])
+    },
+    methods: {
+        ...mapActions(['setUserinfo'])
+    },
     mounted() {
+        debugger
         console.log('cart_success mounted!@@', this.$route.query)
+        let target = this.location_prefix + `/users/cart/add`
+        console.log('this is the cart add target:@@', target)
+        fetch(target, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: this.userid,
+                pid: this.pid,
+                quantity: 1,
+                mychoices: this.mychoices
+            })
+        }).then(res => res.json())
+            .then(res => {
+                console.log(res)
+            })
         // console.log(JSON.parse(this.$route.query.mychoices))
     },
     data() {
-        let success_info=this.$route.query.pname
-        let mychoices=JSON.parse(this.$route.query.mychoices)
-        console.log('mychoices:@@',mychoices)
-        for(let c in mychoices) {
-            success_info+=' '+mychoices[c].choice_name
+        let success_info = this.$route.query.pname
+        let mychoices = JSON.parse(this.$route.query.mychoices)
+        console.log('mychoices:@@', mychoices)
+        for (let c in mychoices) {
+            success_info += ' ' + mychoices[c].choice_name
         }
         return {
             success_info,
+            mychoices,
+            pid: this.$route.query.pid
         }
     }
 }
@@ -54,9 +81,11 @@ export default {
 .outer {
     background-color: rgb(245, 245, 245);
     padding: 38px 0;
+
     .cart_success {
         padding-bottom: 25px;
         margin-bottom: 25px;
+
         .left {
             display: flex;
 
@@ -87,20 +116,23 @@ export default {
             }
         }
     }
+
     .rec_title {
         margin-top: 80px;
         border-top: solid 1px rgb(224, 224, 224);
         position: relative;
+
         span {
             position: absolute;
-            left:50%;
-            top:0;
+            left: 50%;
+            top: 0;
             display: block;
             padding: 0 40px;
             white-space: nowrap;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
             background-color: rgb(245, 245, 245);
-            color:rgb(117, 117, 117);
+            color: rgb(117, 117, 117);
         }
     }
-}</style>
+}
+</style>

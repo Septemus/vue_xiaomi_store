@@ -4,15 +4,45 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 //应用Vuex插件
 Vue.use(Vuex)
-
+const default_avatar = `/images/users/default.png`
 //准备actions——用于响应组件中的动作
 const actions = {
 	// modal(context,value) {
+	stateModalShow(context, value) {
+		// context.commit('SMD', value.description)
+		// context.commit('SMCB',value.cb)
+		this.$vue._root = this.$vue
+		this.$vue.$bvModal.show.apply(this.$vue, ['stateModal'])
+		let _this = this
+		value.cb().then((res) => {
+			console.log(res)
+			context.commit('SMD', res)
+			setTimeout(()=>{
+				_this.$vue.$bvModal.hide.apply(_this.$vue, ['stateModal'])
+				context.commit('SMD', null)
+			},2000)
+		})
+	},
 	setUserinfo(context, value) {
-		context.commit('username', value.username)
-		context.commit('userid', value.userid)
-		if (value.avatar_path) context.commit('userid', value.avatar_path)
+		console.log('set user info:@@')
+		context.commit('username', value.uname ? value.uname : value.uid)
+		context.commit('userid', value.uid)
+		if (value.avatar_path) context.commit('avatar', value.avatar_path)
+		else {
+			context.commit('avatar', default_avatar)
+		}
+		context.commit('default_addr', value.default_addr)
+		context.commit('default_phone', value.default_phone)
+		context.commit('gender', value.gender)
+	},
+	// upload2Server(context,value) {
 
+	// },
+	modal(context, value) {
+		// this._vm.$root.$emit('bv::show::modal', 'myModal');
+		this.$vue._root = this.$vue
+		this.$vue.$bvModal.show.apply(this.$vue, ['myModal'])
+		context.commit('modal', value)
 	}
 
 	// }
@@ -33,12 +63,27 @@ const mutations = {
 		state.userid = value
 	},
 	avatar(state, value) {
-		debugger
+		// debugger
 		state.avatar_path = value
 	},
-	cart_list(state,value) {
-		state.cart_list=value
-	}
+	default_addr(state, value) {
+		state.default_addr = value
+	},
+	default_phone(state, value) {
+		state.default_phone = value
+	},
+	gender(state, value) {
+		state.gender = value
+	},
+	cart_list(state, value) {
+		state.cart_list = value
+	},
+	SMD(state, value) {
+		state.stateModalDescription = value
+	},
+	// SMCB(state, value) {
+	// 	state.stateModalCb = value
+	// }
 }
 //准备state——用于存储数据
 const state = {
@@ -50,7 +95,12 @@ const state = {
 	username: null,
 	userid: null,
 	avatar_path: null,
-	cart_list:[]
+	default_addr: null,
+	default_phone: null,
+	gender: null,
+	cart_list: [],
+	stateModalDescription: null,
+	// stateModalCb: null
 }
 
 //创建并暴露store

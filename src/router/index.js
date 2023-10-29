@@ -12,9 +12,7 @@ import cart_success from '../pages/cart_success_page.vue'
 import { proxyRefs } from 'vue'
 
 //引入组件
-
-//创建并暴露一个路由器
-export default new VueRouter({
+let ret=new VueRouter({
 	routes: [
 		{
 			name: 'front_page',
@@ -65,3 +63,11 @@ export default new VueRouter({
 		}
 	]
 })
+ret.beforeEach((to, from,next) => {
+	// ...
+	// 返回 false 以取消导航
+	debugger
+	console.log('global keeper:@@',to)
+	next()
+  })
+export default ret

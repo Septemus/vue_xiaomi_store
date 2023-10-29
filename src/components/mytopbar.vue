@@ -89,7 +89,11 @@
                         </div>
 
                     </div>
+                    <div class="cart_action" v-if="cart_fetched">
+                        hello
+                    </div>
                 </div>
+                
                 <!-- </Transition> -->
             </div>
 
@@ -122,7 +126,8 @@ export default {
             if (this.cart_list && this.cart_list.length === this.loadedImg) {
                 this.timer2 = setTimeout(() => {
                     this.cart_fetched = true
-                    this.$refs.cart_content.style.height = 'auto'
+                    this.$refs.cart_content.style.height = Math.min(550,100*this.loadedImg)+'px'
+                    this.$refs.cart_content.style['overflow-y']='scroll'
                 }, 700)
             }
         },
@@ -155,6 +160,7 @@ export default {
                 if (this.timer2) clearTimeout(this.timer2)
                 console.log(this.$refs.cart_content.clientHeight)
                 this.$refs.cart_content.style.height = this.$refs.cart_content.clientHeight + 'px'
+                // this.$refs.cart_content.style['overflow-y']='hidden'
                 this.timer3 = setTimeout(() => {
                     this.$refs.cart_content.style = ''
                 }, 10)
@@ -167,6 +173,7 @@ export default {
                 }, 700)
             }
             else {
+                debugger
                 console.log('enter')
                 console.log("showing cart content!@@")
                 console.log('clear to1!@@')
@@ -214,6 +221,7 @@ export default {
 <style lang="less">
 @mytopbar_fs: 12px;
 @cart_height: 100px;
+@cart_width:316px;
 @media (max-width:1280px) {
 
     .mytopbar {
@@ -328,7 +336,13 @@ export default {
                     }
                 }
             }
-
+            .cart_action {
+                width:@cart_width;
+                height:100px;
+                background-color: aqua;
+                position: absolute;
+                bottom: 0;
+            }
             background-color: #fff;
             z-index: 1000;
             /* height: 0px; */
@@ -340,12 +354,13 @@ export default {
             transition: all .5s ease;
             transition-delay: .2s;
             right: 0;
-            width: 316px;
+            width: @cart_width;
             // min-height: 200px;
             // max-height: 500px;
             height:0;
             // min-height: 0;
-            overflow: hidden;
+            overflow-y:hidden;
+            overflow-x:hidden ;
         }
 
         // .cart-enter,

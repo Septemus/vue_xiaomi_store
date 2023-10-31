@@ -11,12 +11,12 @@ export default async function () {
             'Authorization': token
         }
     }).then(res => res.json())
-        .then(res => {
+        .then(async res => {
             if (res.ok) {
                 console.log('this is the verify result:@@', res)
                 let target = _this.location_prefix + '/users/info' + `?id=${res.data.id}`
 
-                fetch(target, {
+                await fetch(target, {
 
                     method: 'GET'
 

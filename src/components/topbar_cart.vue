@@ -42,9 +42,13 @@
                         </p>
                     </div>
                     <div class="side">
-                        <button>
-                            去购物车结算
-                        </button>
+                        <router-link :to="{
+                            name: 'cart_calc'
+                        }">
+                            <button>
+                                去购物车结算
+                            </button>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -372,13 +376,15 @@ export default {
                         font-size: 2*@cart_font_size;
                         line-height: 2*@cart_font_size;
                     }
-
-                    button {
-                        background-color: @myorange;
-                        color: white;
-                        height: 100%;
-                        width: 100%;
-                        border: none;
+                    a {
+                        display: block;
+                        button {
+                            background-color: @myorange;
+                            color: white;
+                            height: 100%;
+                            width: 100%;
+                            border: none;
+                        }
                     }
                 }
 

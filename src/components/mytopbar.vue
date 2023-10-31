@@ -61,7 +61,6 @@
     </div>
 </template>
 <script>
-import verify_token from '../assets/js/verify_token'
 import cart_fetching from '../assets/js/cart_fetching'
 import { mapState, mapActions } from 'vuex'
 import topbar_cartVue from './topbar_cart.vue'

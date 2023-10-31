@@ -8,6 +8,7 @@ import person_center from '../components/person_center.vue'
 import collection_center from '../components/collection_center.vue'
 import resign_center from '../components/resign_center.vue'
 import cart_success from '../pages/cart_success_page.vue'
+import cart_calc from '../pages/cart_calc.vue'
 
 import { proxyRefs } from 'vue'
 
@@ -28,6 +29,11 @@ let ret=new VueRouter({
 			name:'cart_success',
 			path:'/cart_success',
 			component:cart_success
+		},
+		{
+			name:'cart_calc',
+			path:'/cart_calc',
+			component:cart_calc
 		},
 		{
 			name: 'homepage',
@@ -63,11 +69,11 @@ let ret=new VueRouter({
 		}
 	]
 })
-ret.beforeEach((to, from,next) => {
-	// ...
-	// 返回 false 以取消导航
-	debugger
-	console.log('global keeper:@@',to)
-	next()
-  })
+// ret.beforeEach((to, from,next) => {
+// 	// ...
+// 	// 返回 false 以取消导航
+// 	debugger
+// 	console.log('global keeper:@@',to)
+// 	next()
+//   })
 export default ret

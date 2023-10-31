@@ -2,21 +2,16 @@
   <div id="app">
 
 
-    <mobile_side_panel />
-    <mytopbar></mytopbar>
-    <mynavbar></mynavbar>
-    <myModal></myModal>
+    <mobile_side_panel v-if="$route.name!='cart_calc'" />
+    <mytopbar v-if="$route.name!='cart_calc'"></mytopbar>
+    <mynavbar v-if="$route.name!='cart_calc'"></mynavbar>
+    <myModal v-if="$route.name!='cart_calc'"></myModal>
+    <cart_calc_top v-if="$route.name==='cart_calc'"></cart_calc_top>
     <stateModal></stateModal>
     <router-view></router-view>
-    <!-- <mynavbar></mynavbar>
-    <disp></disp>
-    <advertisement></advertisement>
-    <div class="clear_fix">
-    </div>
-    <product_area></product_area> -->
     <bottom_area></bottom_area>
     <post_area></post_area>
-    <side_panel></side_panel>
+    <side_panel v-if="$route.name!='cart_calc'"></side_panel>
 
   </div>
 </template>
@@ -34,10 +29,19 @@ import post_area from './components/post_area.vue'
 import side_panel from './components/side_panel.vue'
 import myModal from './components/myModal.vue'
 import stateModal from './components/stateModal.vue'
+import cart_calc_top from './components/cart_calc_top.vue'
 export default {
   name: 'App',
   components: {
-    mynavbar, mobile_side_panel, mytopbar, bottom_area, post_area, side_panel,myModal,stateModal
+    mynavbar, 
+    mobile_side_panel,
+    mytopbar, 
+    bottom_area, 
+    post_area, 
+    side_panel,
+    myModal,
+    stateModal,
+    cart_calc_top
   },
   mixins: [bc2top],
   mounted() {

@@ -23,7 +23,8 @@
 
                             <p class="cart_item_name">{{ namePlusChoices(cart_item) }}</p>
                         </router-link>
-                        <p class="cart_item_price">{{ cart_item.price }} x {{ cart_item.quantity }}</p>
+                        <p class="cart_item_price">{{ cart_item.price }} x {{ cart_item.quantity }} <span>x</span></p>
+
                     </li>
                 </ul>
                 <div class="no_item" v-show="userid && !cart_list.length">
@@ -210,7 +211,7 @@ export default {
     },
     async mounted() {
         if (await verify_token.apply(this)) {
-            debugger
+            // debugger
             cart_fetching.apply(this)
                 .then((cart_list) => {
                     // debugger
@@ -316,6 +317,15 @@ export default {
                     border-top: solid 1px @cart_item_border_color;
                     align-items: center;
 
+                    &:hover {
+                        .cart_item_price {
+                            span {
+                                opacity: 100;
+                                color:@cart_font_color
+                            }
+                        }
+                    }
+
                     img {
                         width: 50px;
                         height: auto;
@@ -334,7 +344,7 @@ export default {
                             line-height: 12px;
                             word-wrap: break-word;
                             color: @cart_font_color;
-
+                            
                             &:hover {
                                 color: @myorange !important;
                             }
@@ -343,9 +353,21 @@ export default {
 
                     .cart_item_price {
                         position: absolute;
-                        right: 10px;
+                        right: 0px;
                         top: 50%;
                         transform: translateY(-50%);
+
+                        span {
+                            padding-left: 10px;
+                            opacity: 0;
+                            font-size: 16px;
+                            color: rgb(176, 176, 176);
+                            // background-color: red;
+                            transition: opacity .5s ease;
+                            &:hover {
+                                cursor: pointer;
+                            }
+                        }
                     }
                 }
             }
@@ -376,8 +398,10 @@ export default {
                         font-size: 2*@cart_font_size;
                         line-height: 2*@cart_font_size;
                     }
+
                     a {
                         display: block;
+
                         button {
                             background-color: @myorange;
                             color: white;
@@ -436,5 +460,4 @@ export default {
     //     transition: all 1s ease;
     //     transition-delay: .2s;
     // }
-}
-</style>
+}</style>

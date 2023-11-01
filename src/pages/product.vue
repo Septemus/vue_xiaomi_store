@@ -102,7 +102,7 @@
     </div>
 </template>
 <script>
-import { mapState,mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import Swiper from 'swiper'; // 注意引入的是Swiper
 // import 'swiper/css/swiper.min.css' // 注意这里的引入
 import option_box from '../components/option_box.vue'
@@ -140,7 +140,7 @@ export default {
         old_price() {
             return this.min_old_price + this.cur_plus_old
         },
-        ...mapState(['location_prefix'])
+        ...mapState(['location_prefix','userid'])
     },
     watch: {
         product_swiper_slide_list(val) {
@@ -183,24 +183,40 @@ export default {
         addCart() {
             debugger
 
-            
+
 
 
             let query = {
                 pname: this.pname ? this.pname : this.$route.query.pname,
                 mychoices: JSON.stringify(this.mychoices),
-                price: this.price,
-                pid:this.pid
             }
 
-            console.log('mychoices:@@',this.mychoices)
+            console.log('mychoices:@@', this.mychoices)
+            let target = this.location_prefix + `/users/cart/add`
+            console.log('this is the cart add target:@@', target)
+            fetch(target, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: this.userid,
+                    pid: this.pid,
+                    quantity: 1,
+                    mychoices: this.mychoices,
+                    pname:this.pname,
+                })
+            }).then(res => res.json())
+                .then(res => {
+                    console.log(res)
+                    this.$router.push(
+                        {
+                            name: 'cart_success',
+                            query
+                        }
+                    )
+                })
 
-            this.$router.push(
-                {
-                    name: 'cart_success',
-                    query
-                }
-            )
         },
         reload() {
             this.mychoices = new Map()

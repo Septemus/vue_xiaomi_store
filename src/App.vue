@@ -6,7 +6,7 @@
     <mytopbar v-if="$route.name!='cart_calc'"></mytopbar>
     <mynavbar v-if="$route.name!='cart_calc'"></mynavbar>
     <myModal v-if="$route.name!='cart_calc'"></myModal>
-    <cart_calc_top v-if="$route.name==='cart_calc'"></cart_calc_top>
+    <!-- <cart_calc_top></cart_calc_top> -->
     <stateModal></stateModal>
     <router-view></router-view>
     <bottom_area></bottom_area>

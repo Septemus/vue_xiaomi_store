@@ -183,9 +183,6 @@ export default {
         addCart() {
             debugger
 
-
-
-
             let query = {
                 pname: this.pname ? this.pname : this.$route.query.pname,
                 mychoices: JSON.stringify(this.mychoices),

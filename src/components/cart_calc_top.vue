@@ -35,6 +35,7 @@ export default {
 @myorange:#ff6700;
 .cct_outer {
     border-bottom: solid 2px @myorange;
+    background-color: white;
     .cct {
         display: flex;
         align-items: center;

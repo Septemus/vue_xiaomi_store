@@ -10,7 +10,7 @@ export default async function () {
             'Content-Type': 'application/json',
             'Authorization': token
         }
-    }).then(res => res.json())
+    }).then(async res => await res.json())
         .then(async res => {
             if (res.ok) {
                 console.log('this is the verify result:@@', res)
@@ -21,9 +21,9 @@ export default async function () {
                     method: 'GET'
 
                 })
-                    .then(res => {
+                    .then(async res => {
                         console.log(res)
-                        return res.json()
+                        return await res.json()
                     }).then(res => {
                         _this.setUserinfo(res)
                     })

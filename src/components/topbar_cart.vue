@@ -103,7 +103,7 @@ export default {
                 if (this.cart_list && this.cart_list.length === this.loadedImg) {
                     this.timer2 = setTimeout(() => {
                         this.cart_fetched = true
-                        this.$refs.cart_content.style.height = Math.min(this.list_length + this.tail_length, 100 * this.loadedImg) + 'px'
+                        this.$refs.cart_content.style.height = Math.min(this.list_length + this.tail_length, 100 * this.loadedImg+this.tail_length) + 'px'
                         // this.setUnstoppable(this.animation_time)
                         // this.$refs.cart_content.style['overflow-y']='scroll'
                     }, real_anime_time)

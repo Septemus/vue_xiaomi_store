@@ -1,4 +1,3 @@
-
 <template>
     <div class="mycart col-sm-1">
         <a class="cart_box" @mouseover="show_cart = true" @mouseleave="show_cart = false">

@@ -11,28 +11,13 @@
             </div>
             <div class="cart_list" v-show="cart_fetched">
                 <ul v-show="userid && cart_list.length">
-                    <li v-for="cart_item of cart_list">
-                        <img :src="location_prefix + cart_item.img_cover" alt="">
-                        <router-link :to="{
-                            name: 'product',
-                            query: {
-                                pid: cart_item.pid
-                            }
-                        }">
-
-                            <p class="cart_item_name">{{ namePlusChoices(cart_item) }}</p>
-                        </router-link>
-                        <p class="cart_item_price">{{ cart_item.price }} x {{ cart_item.quantity }} <span>x</span></p>
-
+                    <li v-for="cart_item of cart_list" :key="cart_item.cart_id">
+                        <topbar_cart_item :cart_item="cart_item" @remove="Myremove"></topbar_cart_item>
                     </li>
                 </ul>
-                <div class="no_item" v-show="userid && !cart_list.length">
-                    购物车中无商品
-                </div>
-                <div class="unlogged" v-show="!userid">
-                    请先登录！
-                </div>
-                <div class="cart_action" v-show="cart_fetched">
+
+                
+                <div class="cart_action" v-show="cart_fetched && cart_list.length">
                     <div class="side">
                         <p class="number">
                             共 {{ cart_list.length }} 件商品
@@ -52,7 +37,12 @@
                     </div>
                 </div>
             </div>
-
+            <div class="no_item" v-show="userid && cart_fetched && !cart_list.length">
+                购物车中还没有商品，赶紧选购吧！
+            </div>
+            <div class="unlogged" v-show="!userid && cart_fetched">
+                    请先登录！
+            </div>
         </div>
 
         <!-- </Transition> -->
@@ -62,7 +52,8 @@
 import { mapState, mapActions } from 'vuex'
 import verify_token from '../assets/js/verify_token'
 import cart_fetching from '../assets/js/cart_fetching'
-
+import topbar_cart_item from './topbar_cart_item.vue'
+import Myremovehandler from '@/assets/js/Myremovehandler'
 export default {
     name: "topbar_cart",
     data() {
@@ -82,6 +73,10 @@ export default {
 
         }
     },
+    components: {
+        topbar_cart_item
+    },
+    mixins: [Myremovehandler],
     methods: {
         ...mapActions(['setUserinfo']),
         setUnstoppable(t) {
@@ -102,7 +97,12 @@ export default {
                 if (this.cart_list && this.cart_list.length === this.loadedImg) {
                     this.timer2 = setTimeout(() => {
                         this.cart_fetched = true
-                        this.$refs.cart_content.style.height = Math.min(this.list_length + this.tail_length, 100 * this.loadedImg+this.tail_length) + 'px'
+                        this.$refs.cart_content.style.height = Math.min(
+                            this.list_length + this.tail_length
+                            ,
+                            100 * this.loadedImg + this.tail_length
+                        )
+                            + 'px'
                         // this.setUnstoppable(this.animation_time)
                         // this.$refs.cart_content.style['overflow-y']='scroll'
                     }, real_anime_time)
@@ -110,13 +110,20 @@ export default {
 
             }
         },
-        namePlusChoices(item) {
-            let ret = item.detail.pname
-            for (let c of item.choices) {
-                ret += ' ' + c.choice_name
-            }
-            return ret
-        },
+        async Myremove(cart_id) {
+
+            debugger
+
+            await this.Myremove_handler(cart_id)
+
+            let planh=Math.min(this.list_length + this.tail_length, 100 * this.cart_list.length + this.tail_length)
+
+            if(planh<100) planh=100
+
+            this.$refs.cart_content.style.height = planh + 'px'
+
+        }
+        
     },
     computed: {
         ...mapState(['location_prefix', 'userid', 'cart_list']),
@@ -128,10 +135,16 @@ export default {
         }
     },
     watch: {
+        // cart_list(newVal,oldVal) {
+        //     console.log('cart list has changed!@@',newVal)
+
+
+        // },
+
+
+
         show_cart(val) {
             if (!val) {
-                // while(this.unstoppeble){
-                //     }
                 if (!this.unstoppeble) {
                     console.log('left')
                     if (this.timer2) clearTimeout(this.timer2)
@@ -153,9 +166,6 @@ export default {
                         this.timer1 = null
                     }, this.animation_time)
                 }
-                // else {
-
-                // }
             }
             else {
                 if (!this.unstoppeble) {
@@ -200,7 +210,6 @@ export default {
                 }
                 else {
                     console.log('encounterd unstoppable!let itb go!@@')
-                    // debugger
                     this.$refs.cart_content.style.height = `0px`
                     //css里面hover时会有高度，必须通过js加内联样式覆盖掉
                 }
@@ -213,7 +222,7 @@ export default {
             // debugger
             cart_fetching.apply(this)
                 .then((cart_list) => {
-                    // debugger
+                    debugger
                     this.$store.commit('cart_list', cart_list)
                     console.log('commiting to vuex successful,this is the cartlist:@@', cart_list)
                 })
@@ -224,7 +233,7 @@ export default {
 
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @mytopbar_fs: 12px;
 @cart_height: 100px;
 @cart_width: 316px;
@@ -239,7 +248,7 @@ export default {
     /* margin-left: 30px; */
     // color: #fff;
     position: relative;
-    padding: 0;
+    padding: 0 !important;
     background-color: @myorange;
 
     &:hover {
@@ -320,7 +329,7 @@ export default {
                         .cart_item_price {
                             span {
                                 opacity: 100;
-                                color:@cart_font_color
+                                color: @cart_font_color
                             }
                         }
                     }
@@ -343,7 +352,7 @@ export default {
                             line-height: 12px;
                             word-wrap: break-word;
                             color: @cart_font_color;
-                            
+
                             &:hover {
                                 color: @myorange !important;
                             }
@@ -363,6 +372,7 @@ export default {
                             color: rgb(176, 176, 176);
                             // background-color: red;
                             transition: opacity .5s ease;
+
                             &:hover {
                                 cursor: pointer;
                             }
@@ -419,6 +429,12 @@ export default {
             }
         }
 
+        .unlogged,.no_item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
 
 
         background-color: #fff;
@@ -442,21 +458,5 @@ export default {
 
     }
 
-    // .cart-enter,
-    // .cart-leave-to {
-    //     // height: 0px;
-    //     min-height: 0px;
-    // }
-
-    // .cart-leave,
-    // .cart-enter-to {
-    //     // height:200px;    
-    //     min-height: @cart_height;
-    // }
-
-    // .cart-enter-active,
-    // .cart-leave-active {
-    //     transition: all 1s ease;
-    //     transition-delay: .2s;
-    // }
-}</style>
+}
+</style>

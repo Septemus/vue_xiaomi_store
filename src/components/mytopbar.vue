@@ -12,8 +12,7 @@
                 <li><a href="#">天星数科</a></li>
                 <li><a href="#">有品</a></li>
                 <li><a href="#">小爱开放平台</a></li>
-                <li><a href="#">企业团购</a></li>
-                <li><a href="#">资质证照</a></li>
+                
                 <li><a href="#">协议规则</a></li>
                 <li class="download">
                     <a href="#">下载app</a>

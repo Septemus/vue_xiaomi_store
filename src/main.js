@@ -15,11 +15,11 @@ import 'bootstrap/dist/js/bootstrap.min.js' //引用bootstrap的js
 import 'bootstrap/dist/js/bootstrap.bundle.min.js' //引用bootstrap的js
 import BootstrapVue from 'bootstrap-vue'
 import { BvModal } from 'bootstrap-vue'
+// import SvgIcon from '@/components/IconSvg.vue'
+import '@/assets/iconfont/iconfont.css'
+// Vue.component('svg-icon', SvgIcon);
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
-import Vconsole from 'vconsole'
-const vConsole = new Vconsole()
-Vue.prototype.vConsole = vConsole;
 Vue.component('BvModal', BvModal)
 import 'font-awesome/css/font-awesome.min.css'
 

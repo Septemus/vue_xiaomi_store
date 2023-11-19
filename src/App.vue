@@ -2,23 +2,23 @@
   <div id="app">
 
 
-    <mobile_side_panel v-if="$route.name!='cart_calc'" />
-    <mytopbar v-if="$route.name!='cart_calc'"></mytopbar>
-    <mynavbar v-if="$route.name!='cart_calc'"></mynavbar>
-    <myModal v-if="$route.name!='cart_calc'"></myModal>
+    <mobile_side_panel v-if="notCC" />
+    <mytopbar v-if="notCC"></mytopbar>
+    <mynavbar v-if="notCC"></mynavbar>
+    <myModal v-show="notCC"></myModal>
     <!-- <cart_calc_top></cart_calc_top> -->
     <stateModal></stateModal>
     <router-view></router-view>
     <bottom_area></bottom_area>
     <post_area></post_area>
-    <side_panel v-if="$route.name!='cart_calc'"></side_panel>
+    <side_panel v-if="notCC"></side_panel>
 
   </div>
 </template>
 
 <script>
 // import disp from './components/disp.vue'
-import mynavbar from './components/mynavbar.vue'
+import mynavbar from './components/front_page/mynavbar.vue'
 // import product_area from './components/product_area.vue'
 import mobile_side_panel from './components/mobile_side_panel.vue'
 import bc2top from './assets/js/bc2top_function.js'
@@ -28,8 +28,8 @@ import bottom_area from './components/bottom_area.vue'
 import post_area from './components/post_area.vue'
 import side_panel from './components/side_panel.vue'
 import myModal from './components/myModal.vue'
-import stateModal from './components/stateModal.vue'
-import cart_calc_top from './components/cart_calc_top.vue'
+import stateModal from './components/home_page/stateModal.vue'
+// import cart_calc_top from './components/cart_calc_top.vue'
 export default {
   name: 'App',
   components: {
@@ -41,9 +41,14 @@ export default {
     side_panel,
     myModal,
     stateModal,
-    cart_calc_top
+    // cart_calc_top
   },
   mixins: [bc2top],
+  computed:{
+    notCC() {
+      return !this.$route.fullPath.includes('cart_calc')
+    }
+  },
   mounted() {
     window.onerror = function (message, source, line, column, error) {
       // do something

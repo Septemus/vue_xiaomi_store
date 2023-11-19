@@ -15,8 +15,8 @@ export default {
                 vm.$router.push({
                     name: 'front_page'
                 })
-                vm.$root.$emit('bv::show::modal', 'myModal'); 
-                vm.$store.commit('modal', 1)   
+                // vm.$root.$emit('bv::show::modal', 'myModal'); 
+                vm.$store.dispatch('modal', 1)   
             }
 
         })

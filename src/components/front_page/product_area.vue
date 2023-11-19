@@ -11,7 +11,7 @@
             <div class="home-banner-box">
                 <a href="javascript:;"><img :src="$store.state.location_prefix + '/images/banner/b2.png'"></a>
             </div>
-            <div class="panel video_panel">
+            <!-- <div class="panel video_panel">
                 <div class="p_header">
                     <p>
                         视频
@@ -21,49 +21,50 @@
                             <a href="javascript:;">
                                 查看更多 <i class="fa fa-angle-right"></i>
                             </a>
-
                         </div>
                     </div>
 
                 </div>
                 <div class="video_container">
 
-                    <a href="javascript:;" class="video_img">
-                        <img src="../assets/images/e74c4ff741bcdfc5b28a48a43e4edc6d.webp">
-                        <i class="fa fa-play"></i>
-
+                    <a href="javascript:void(0);" class="video_img">
+                        <img src="../../assets/images/e74c4ff741bcdfc5b28a48a43e4edc6d.webp">
+                        <i class="fa fa-play">
+                        </i>
                         <p class="title">2021年春季新品发布会第一场</p>
-                        <p class="desc"></p>
+                        <p class="desc">
+                        </p>
                     </a>
 
 
-                    <a href="javascript:;" class="video_img">
-                        <img src="../assets/images/101b19aca4bb489bcef0f503e44ec866.webp">
-                        <i class="fa fa-play"></i>
-
+                    <a href="javascript:void(0);" class="video_img">
+                        <img src="../../assets/images/101b19aca4bb489bcef0f503e44ec866.webp">
+                        <i class="fa fa-play">
+                        </i>
                         <p class="title">Redmi 10X系列发布会</p>
                         <p class="desc">Redmi 10X系列发布会</p>
                     </a>
 
 
-                    <a href="javascript:;" class="video_img">
-                        <img src="../assets/images/96563e75833ba4563bd469dd28203b09.webp">
-                        <i class="fa fa-play"></i>
-
+                    <a href="javascript:void(0);" class="video_img">
+                        <img src="../../assets/images/96563e75833ba4563bd469dd28203b09.webp">
+                        <i class="fa fa-play">
+                        </i>
                         <p class="title">小米10 青春版 发布会</p>
                         <p class="desc"></p>
                     </a>
 
 
-                    <a href="javascript:;" class="video_img">
-                        <img src="../assets/images/2fd26bb99b723337a2f8eaba84f7d5bb.webp">
-                        <i class="fa fa-play"></i>
+                    <a href="javascript:void(0);" class="video_img">
+                        <img src="../../assets/images/2fd26bb99b723337a2f8eaba84f7d5bb.webp">
+                        <i class="fa fa-play">
+                        </i>
                         <p class="title">小米10 8K手机拍大片</p>
                         <p class="desc"></p>
                     </a>
 
                 </div>
-            </div>
+            </div> -->
         </div>
 
     </div>

@@ -4,12 +4,13 @@
 
         <div class="row mynavbar container-xl mx-auto">
             <div class="col-md-2 py-3 px-0  text-white">
-                <div class="logo_div">
-
-                    <img src="../assets/images/logo-mi2.png" alt="" class="img-fluid  d-block">
-                </div>
+                <router-link :to="{
+                    name:'front_page'
+                }" class="logo_div">
+                    <img src="../../assets/images/logo-mi2.png" alt="" class="img-fluid  d-block">
+                </router-link>
             </div>
-            <div class="col-md-7 p-3  ">
+            <div class="col-md-7 py-3  ">
                 <div class="nav_items">
                     <a href="#" v-show="fetched" v-for="item, index of nav_children"
                         @mouseover="nav_item_over(item,index)" @mouseleave="nav_item_leave(item,index)" :key="index">{{
@@ -217,8 +218,12 @@ export default {
 
 
         .logo_div {
+            display: block;
             img {
                 max-height: 56px;
+                &:active {
+                    transform: scale(0.75,0.75);
+                }
             }
 
             /* width: 100%; */

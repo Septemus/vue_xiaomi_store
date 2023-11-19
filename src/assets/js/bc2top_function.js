@@ -38,7 +38,7 @@ export default {
 
     bc2top.forEach(element => {
       element.onclick = () => {
-        // debugger
+        
         console.log('ddfhdh')
         let num = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
         let ID = setInterval(() => {

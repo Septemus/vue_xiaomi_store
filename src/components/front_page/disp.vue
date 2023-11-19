@@ -5,8 +5,8 @@
         <li v-for="item of category_lists[selected].array">
           <a href="javascript:;">
             <img :src="$store.state.location_prefix + item.img_src">
-            <span class="d-inline-block">{{ item.name }}</span>
-
+            <span class="d-inline-block">{{ item.name }}
+            </span>
           </a>
         </li>
       </ul>
@@ -50,30 +50,6 @@ export default {
       fetched_category: false,
       fetched_slide: false,
       swiper_slide_list: [
-        // {
-        //   "index": 1,
-        //   "path": this.$store.state.location_prefix+'/images/slide/slide0.png'
-        // },
-        // {
-        //   "index": 2,
-
-        //   "path": this.$store.state.location_prefix+'/images/slide/slide1.png'
-        // },
-        // {
-        //   "index": 3,
-
-        //   "path": this.$store.state.location_prefix+'/images/slide/slide2.png'
-        // },
-        // {
-        //   "index": 4,
-
-        //   "path": this.$store.state.location_prefix+'/images/slide/slide3.png'
-        // },
-        // {
-        //   "index": 5,
-
-        //   "path": this.$store.state.location_prefix+'/images/slide/slide4.png'
-        // }
       ],
       // slide_item_list: [
       //   '手机', '电视', '家电', '笔记本 平板', '出行 穿戴', '耳机 音箱', '健康 儿童'
@@ -152,7 +128,7 @@ export default {
     }
 
     .left {
-      font-size: 0.5em;
+      font-size: 6px;
 
       ul {
         li {

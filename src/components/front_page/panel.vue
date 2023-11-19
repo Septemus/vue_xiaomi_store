@@ -66,16 +66,6 @@
                 </router-link>
 
 
-                <!-- <a class="gitem" href="" v-if="!gitem_list_item.halfs">
-                    <div class="gitem_card">
-                        <img :src="$store.state.location_prefix + gitem_list_item.img_path">
-                        <h6>{{ gitem_list_item.name }}</h6>
-                        <p v-html="gitem_list_item.discription"></p>
-                        <div class="price">
-                            <span>{{ gitem_list_item.price }}元</span>&nbsp;<del>{{ gitem_list_item.old_price }}</del>
-                        </div>
-                    </div>
-                </a> -->
                 <div class="last_icon" v-else>
                     <router-link class="last_icon_half" v-for="h of gitem_list_item.halfs" :to="{
                         name: 'product',
@@ -219,16 +209,16 @@ export default {
         /* background-color: #2196F3; */
         // padding: 10px;
 
-        p,
-        h6,
-        span,
-        del,
-        i {
-            @media (max-width:700px) {
+        // p,
+        // h6,
+        // span,
+        // del,
+        // i {
+        //     @media (max-width:700px) {
 
-                font-size: 0.4rem !important;
-            }
-        }
+        //         font-size: 0.4rem !important;
+        //     }
+        // }
 
         .last_icon {
             height: 300px;
@@ -241,7 +231,7 @@ export default {
 
             @media (max-width:700px) {
                 height: 200px !important;
-
+                font-size: 8px;
             }
 
             .last_icon_half {
@@ -268,6 +258,12 @@ export default {
                 p {
                     margin-top: 5px;
                     padding: 10px;
+
+                    @media (max-width:700px) {
+                        padding: 0;
+                        margin: 10px auto;
+
+                    }
                 }
 
                 .price {
@@ -281,13 +277,19 @@ export default {
                     transform: translateY(-50%);
                     right: 10%;
                     color: orange;
+                    @media (max-width:700px) {
+                        font-size: 15px;       
+                    }
                 }
 
                 .more {
                     font-size: 18px;
+                    @media (max-width:700px) {
+                        font-size: 8px;
+                    }
                     small {
-                        font-size:12px;
-                        color:#757575;
+                        font-size: 12px;
+                        color: #757575;
                     }
                 }
             }
@@ -323,6 +325,15 @@ export default {
                 color: black;
                 position: relative;
 
+                >h6 {
+                    height: 45px;
+                    font-size: 15px;
+                    @media (max-width:700px) {
+                        height: 30px;
+                        font-size: 8px;
+                    }
+                }
+
                 >img {
                     width: 60%;
                     display: block;
@@ -332,6 +343,11 @@ export default {
                 >p {
                     font-size: 12px;
                     color: @desc_gray;
+
+                    @media (max-width:700px) {
+                        font-size: 6px;
+
+                    }
                 }
 
                 >.price {
@@ -348,6 +364,9 @@ export default {
 
                     >del {
                         color: var(--topbar_color);
+                    }
+                    @media (max-width:700px) {
+                        font-size: 6px;
                     }
                 }
 

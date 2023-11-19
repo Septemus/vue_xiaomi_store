@@ -1,4 +1,3 @@
-
 <template>
     <div class="side_panel">
 
@@ -13,11 +12,13 @@
             </div>
 
         </a>
-        <a href="javascript:void(0);">
+        <router-link href="javascript:void(0);" :to="{
+            name:'person_center'
+        }">
             <img class="static" src="../assets/images/55cad219421bee03a801775e7309b920.png">
             <img class="Bhover" src="../assets/images/41f858550f42eb1770b97faf219ae215.png">
             个人中心
-        </a>
+        </router-link>
         <a href="javascript:void(0);">
             <img class="static" src="../assets/images/12eb0965ab33dc8e05870911b90f3f13.png">
             <img class="Bhover" src="../assets/images/95fbf0081a06eec7be4d35e277faeca0.png">
@@ -28,11 +29,13 @@
             <img class="Bhover" src="../assets/images/5e9f2b1b0da09ac3b3961378284ef2d4.png">
             人工客服
         </a>
-        <a href="javascript:void(0);">
+        <router-link href="javascript:void(0);" :to="{
+            name:'cart_calc'
+        }">
             <img class="static" src="../assets/images/d7db56d1d850113f016c95e289e36efa.png">
             <img class="Bhover" src="../assets/images/692a6c3b0a93a24f74a29c0f9d68ec71.png">
             购物车
-        </a>
+        </router-link>
         <a href="javascript:void(0);" class="bc2top" v-show="$store.state.bc2top_show">
             <img class="static" src="../assets/images/totop.png">
             <img class="Bhover" src="../assets/images/totop_hover.png">

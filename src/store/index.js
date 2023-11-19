@@ -33,19 +33,23 @@ const actions = {
 		}
 		context.commit('default_addr', value.default_addr)
 		context.commit('default_phone', value.default_phone)
+
 		context.commit('gender', value.gender)
+
+		context.commit('realname',value.realname)
 	},
 	// upload2Server(context,value) {
 
 	// },
 	modal(context, value) {
 		// this._vm.$root.$emit('bv::show::modal', 'myModal');
+		debugger
 		this.$vue._root = this.$vue
 		this.$vue.$bvModal.show.apply(this.$vue, ['myModal'])
 		context.commit('modal', value)
 	}
 
-	// }
+
 }
 //准备mutations——用于操作数据（state）
 const mutations = {
@@ -66,6 +70,9 @@ const mutations = {
 		// debugger
 		state.avatar_path = value
 	},
+	realname(state,value) {
+		state.realname=value
+	},
 	default_addr(state, value) {
 		state.default_addr = value
 	},
@@ -81,6 +88,12 @@ const mutations = {
 	SMD(state, value) {
 		state.stateModalDescription = value
 	},
+	select_list(state,value) {
+		state.select_list=value
+	},
+	realname(state,value) {
+		state.realname=value
+	}
 	// SMCB(state, value) {
 	// 	state.stateModalCb = value
 	// }
@@ -98,8 +111,11 @@ const state = {
 	default_addr: null,
 	default_phone: null,
 	gender: null,
+	realname:null,
 	cart_list: [],
 	stateModalDescription: null,
+	select_list:null,
+	realname:null
 	// stateModalCb: null
 }
 

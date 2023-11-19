@@ -8,11 +8,10 @@
     </div>
 </template>
 <script>
-import disp from '../components/disp.vue'
-import product_area from '../components/product_area.vue'
-import advertisement from '../components/advertisement.vue'
+import disp from '../components/front_page/disp.vue'
+import product_area from '../components//front_page/product_area.vue'
+import advertisement from '../components//front_page/advertisement.vue'
 export default {
     components: { disp, product_area, advertisement },
-
 }
 </script>

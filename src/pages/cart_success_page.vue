@@ -11,8 +11,10 @@
                 </div>
                 <div class="col-md-4 right">
                     <div class="bt_area">
-                        <button class="back">返回上一级</button>
-                        <button class="gopay">去购物车结算</button>
+                        <button class="back" @click="$router.go(-1)">返回上一级</button>
+                        <button class="gopay" @click="$router.push({
+                            name:'cart_calc'
+                        })">去购物车结算</button>
                     </div>
                 </div>
 
@@ -42,26 +44,6 @@ export default {
         ...mapActions(['setUserinfo'])
     },
     mounted() {
-        // debugger
-        // console.log('cart_success mounted!@@', this.$route.query)
-        // let target = this.location_prefix + `/users/cart/add`
-        // console.log('this is the cart add target:@@', target)
-        // fetch(target, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         id: this.userid,
-        //         pid: this.pid,
-        //         quantity: 1,
-        //         mychoices: this.mychoices
-        //     })
-        // }).then(res => res.json())
-        //     .then(res => {
-        //         console.log(res)
-        //     })
-        // console.log(JSON.parse(this.$route.query.mychoices))
     },
     data() {
         let success_info = this.$route.query.pname
@@ -113,27 +95,31 @@ export default {
                 button {
                     width: 40%;
                     height: 40px;
+                    font-size: 14px;
+                    transition: all .3s ease;
                 }
+                .back {
+                    background:none;
+                    border: solid 1px #b0b0b0;
+                    color: #b0b0b0;
+                    &:hover {
+                        background-color: white;
+                        color:#757575;
+                    }
+                }
+                .gopay {
+                    background-color: #ff6700;
+                    color:white;
+                    border:none;
+                    &:hover {
+                        background-color: #f25807;
+                    }
+
+                }
+
             }
         }
     }
 
-    // .rec_title {
-    //     margin-top: 80px;
-    //     border-top: solid 1px rgb(224, 224, 224);
-    //     position: relative;
-
-    //     span {
-    //         position: absolute;
-    //         left: 50%;
-    //         top: 0;
-    //         display: block;
-    //         padding: 0 40px;
-    //         white-space: nowrap;
-    //         transform: translate(-50%, -50%);
-    //         background-color: rgb(245, 245, 245);
-    //         color: rgb(117, 117, 117);
-    //     }
-    // }
 }
 </style>

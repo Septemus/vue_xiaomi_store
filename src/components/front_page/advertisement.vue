@@ -1,25 +1,25 @@
 <template>
   <div class="advertisement container-xl p-0 ">
     <div class="rowbox row m-0">
-      <div class="leftbox col-md-2 p-0">
+      <div class="leftbox col-md-2 p-0 mb-2">
         <div class="ad_left">
 
-          <a class="with_right_line" href=""><i class="fa fa-clock-o"></i>
+          <a href=""><i class="fa fa-clock-o"></i>
 
             <br>保障服务</a>
-          <a class="with_right_line" href=""><i class="fa fa-building-o"></i>
+          <a href=""><i class="fa fa-building-o"></i>
 
             <br>企业团购</a>
           <a href=""><i class="fa fa-facebook-official"></i>
 
             <br>F码通道</a>
-          <a class="with_hat with_right_line" href=""><i class="fa fa-id-card-o"></i>
+          <a href=""><i class="fa fa-id-card-o"></i>
 
             <br>米粉卡</a>
-          <a class="with_hat with_right_line" href=""><i class="fa fa-usd"></i>
+          <a href=""><i class="fa fa-usd"></i>
 
             <br>以旧换新</a>
-          <a class="with_hat" href=""><i class="fa fa-mobile"></i>
+          <a href=""><i class="fa fa-mobile"></i>
 
             <br>话费充值</a>
 
@@ -27,9 +27,9 @@
       </div>
       <div class="rightbox col-md-10 p-0">
         <div class="ad_right">
-          <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad1.png'"></div>
-          <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad2.png'"></div>
-          <div class="ad_card"><img :src="this.$store.state.location_prefix+'/images/advertisement/ad3.png'"></div>
+          <div class="ad_card"><img :src="this.$store.state.location_prefix + '/images/advertisement/ad1.png'"></div>
+          <div class="ad_card"><img :src="this.$store.state.location_prefix + '/images/advertisement/ad2.png'"></div>
+          <div class="ad_card"><img :src="this.$store.state.location_prefix + '/images/advertisement/ad3.png'"></div>
         </div>
       </div>
 
@@ -48,16 +48,16 @@ export default {
   min-height: 150px;
 
   .ad_left {
-
     box-sizing: border-box;
     display: flex;
+    padding: 3px;
     width: 100%;
     height: 100%;
     /* float: left; */
     background-color: rgb(95, 87, 80);
     align-content: center;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
 
 
 
@@ -73,31 +73,32 @@ export default {
       /* background-color: aquamarine; */
       /* padding-top: 20px; */
       height: 50%;
-      width: 30%;
+      width: 33.3%;
       display: block;
       /* border-left: 1px solid rgb(102,94,87); */
       text-align: center;
 
-      &.with_hat::before {
-        /* content: "helo"; */
-        content: "";
+
+
+      &::before,
+      &::after {
         position: absolute;
-        left: 0;
-        /* top: 0; */
-        width: 100%;
-        height: 1px;
-        background-color: rgb(205, 205, 205);
+        content: "";
+        background: #665e57;
       }
 
-      &.with_right_line::after {
-        /* top:0; */
-        content: "";
-        position: absolute;
-        right: -4px;
-        top: 10%;
-        height: 80%;
+
+      &::before {
+        top: -1px;
+        left: 5%;
+        width: 90%;
+        height: 1px;
+      }
+      &::after {
+        top: 5%;
+        left: 0;
         width: 1px;
-        background-color: rgb(205, 205, 205);
+        height: 90%;
       }
 
       i {

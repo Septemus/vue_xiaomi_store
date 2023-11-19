@@ -21,7 +21,7 @@
                 </div>
             </Transition>
             <div class="mheader w-100">
-                <img src="../assets/images/logo-mi2.png" alt="">
+                <img src="../../assets/images/logo-mi2.png" alt="">
 
                 <!-- <b-button variant="danger" @click="modal_close">
                     X
@@ -63,7 +63,7 @@ export default {
 }
 
 </script>
-<style lang="less" >
+<style lang="less" scoped>
 @len1: 8px;
 @len2: 25px;
 @my_orange: rgb(255, 103, 0);
@@ -212,4 +212,5 @@ export default {
             }
         }
     }
-}</style>
+}
+</style>

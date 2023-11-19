@@ -1,8 +1,11 @@
 <template>
     <div class="mycart col-sm-1">
-        <a class="cart_box" @mouseover="show_cart = true" @mouseleave="show_cart = false">
-            <i class="fa fa-shopping-cart"></i>
-            购物车
+        <a class="cart_box" @mouseover="show_cart = true" @mouseleave="show_cart = false" @click="$router.push({
+            'name':'cart_calc'
+        })">
+            <i class="fa fa-shopping-cart">
+            </i>
+            购物车{{ (cart_list&&cart_list.length)?`(${cart_list.length})`:'' }}
         </a>
         <!-- <Transition name="cart"> -->
         <div class="cart_content" @mouseover="show_cart = true" @mouseleave="show_cart = false" ref="cart_content">
@@ -112,7 +115,6 @@ export default {
         },
         async Myremove(cart_id) {
 
-            debugger
 
             await this.Myremove_handler(cart_id)
 
@@ -222,7 +224,6 @@ export default {
             // debugger
             cart_fetching.apply(this)
                 .then((cart_list) => {
-                    debugger
                     this.$store.commit('cart_list', cart_list)
                     console.log('commiting to vuex successful,this is the cartlist:@@', cart_list)
                 })

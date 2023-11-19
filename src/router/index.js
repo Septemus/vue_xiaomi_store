@@ -3,14 +3,16 @@ import VueRouter from 'vue-router'
 import front_page from '../pages/front_page.vue'
 import product from '../pages/product.vue'
 import homepage from '../pages/homepage.vue'
-import order_center from '../components/order_center.vue'
-import person_center from '../components/person_center.vue'
-import collection_center from '../components/collection_center.vue'
-import resign_center from '../components/resign_center.vue'
+import order_center from '../components/home_page/order_center.vue'
+import person_center from '../components/home_page/person_center.vue'
+import collection_center from '../components/home_page/collection_center.vue'
+import resign_center from '../components/home_page/resign_center.vue'
+import { proxyRefs } from 'vue'
 import cart_success from '../pages/cart_success_page.vue'
 import cart_calc from '../pages/cart_calc.vue'
-
-import { proxyRefs } from 'vue'
+import cart_calc_part1 from '@/components/cart_calc/cart_calc_part1.vue'
+import cart_calc_part2 from '@/components/cart_calc/cart_calc_part2.vue'
+import cart_calc_part3 from '@/components/cart_calc/cart_calc_part3.vue'
 
 //引入组件
 let ret=new VueRouter({
@@ -33,7 +35,27 @@ let ret=new VueRouter({
 		{
 			name:'cart_calc',
 			path:'/cart_calc',
-			component:cart_calc
+			component:cart_calc,
+			redirect:{
+				name:'part1'
+			},
+			children:[
+				{
+					name:'part1',
+					path:'part1',
+					component:cart_calc_part1
+				},
+				{
+					name:'part2',
+					path:'part2',
+					component:cart_calc_part2
+				},
+				{
+					name:'part3',
+					path:'part3',
+					component:cart_calc_part3
+				}
+			]
 		},
 		{
 			name: 'homepage',

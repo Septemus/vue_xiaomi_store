@@ -1,0 +1,23 @@
+{
+  "id": "4316056",
+  "name": "xiaomi_store",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12063977",
+      "name": "check",
+      "font_class": "check",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "5725167",
+      "name": "多选框 选中",
+      "font_class": "checkbox",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

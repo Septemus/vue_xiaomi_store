@@ -130,7 +130,7 @@
 </template>
   
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 export default {
     name: 'myModal',
     data() {
@@ -159,7 +159,7 @@ export default {
         password_legal() {
             return /^\w{6,20}$/.test(this.password)
         },
-        ...mapState(['location_prefix','userid'])
+        ...mapState(['location_prefix', 'userid'])
     },
     methods: {
         status_success(description, uname, token) {
@@ -333,6 +333,8 @@ export default {
 
 #myModal {
 
+
+
     position: relative;
 
     .loading-enter,
@@ -487,7 +489,9 @@ export default {
             width: 90px;
             font-size: 12px;
             transition: width .4s ease-in-out;
-
+            height: 45px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
             &:focus {
                 .myFocus();
             }
@@ -508,7 +512,7 @@ export default {
             text-align: center;
             font-size: 16px;
             line-height: 38px;
-            height: 38px;
+            height: 45px;
             padding: 0;
             border: none;
             background-color: transparent;

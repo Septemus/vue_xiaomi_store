@@ -60,21 +60,20 @@
                     </div>
                     <div class="sale_btn row">
                         <a href="javascript:void(0);" class="col-md-6 d-block">
-                            <!-- <router-link :to="{
-                                name: 'cart_success',
-                                query: {
-                                    pname: pname ?? $route.query.pname,
-                                    mychoices: JSON.stringify(mychoices),
-                                    price: price
-                                }
-                            }"> -->
 
                             <button class="cart_btn" @click="addCart"><span>加入购物车</span></button>
 
                             <!-- </router-link> -->
                         </a>
                         <a href="javascript:void(0);" class="col-md-6 d-block">
-                            <button class="like_btn"> <span><i class="fa fa-heart-o" aria-hidden="true"></i>喜欢</span>
+                            <button class="like_btn" :class="{ liked }" @click="collect">
+                                <span>
+                                    <i class="fa" :class="[liked ? 'fa-heart' : 'fa-heart-o']" aria-hidden="true">
+                                        <i class="fa fa-heart shadow" aria-hidden="true">
+                                        </i>
+                                    </i>
+                                    喜欢
+                                </span>
                             </button>
                         </a>
                     </div>
@@ -106,6 +105,7 @@ import { mapState, mapActions } from 'vuex';
 import Swiper from 'swiper'; // 注意引入的是Swiper
 // import 'swiper/css/swiper.min.css' // 注意这里的引入
 import option_box from '../components/option_box.vue'
+import verify_token from '@/assets/js/verify_token';
 import "swiper/swiper-bundle.min.css"
 import "swiper/bundle"
 import { RouterLink } from 'vue-router';
@@ -125,7 +125,8 @@ export default {
             mySwiper: undefined,
             options: [],
             mychoices: {},
-            opt_string: ''
+            opt_string: '',
+            liked: false
         }
     },
     components: {
@@ -140,11 +141,13 @@ export default {
         old_price() {
             return this.min_old_price + this.cur_plus_old
         },
-        ...mapState(['location_prefix','userid'])
+        ...mapState(['location_prefix', 'userid'])
     },
     watch: {
         product_swiper_slide_list(val) {
             // debugger
+            this.mySwiper.destroy(false)
+            this.liked=false
             if (this.product_swiper_slide_list.length) {
                 this.$nextTick(function () {
                     // debugger
@@ -180,40 +183,46 @@ export default {
         },
     },
     methods: {
-        addCart() {
-            debugger
+        ...mapActions(['setUserinfo']),
+        async addCart() {
+            if (await verify_token.apply(this, [])) {
+                let query = {
+                    pname: this.pname ? this.pname : this.$route.query.pname,
+                    mychoices: JSON.stringify(this.mychoices),
+                }
 
-            let query = {
-                pname: this.pname ? this.pname : this.$route.query.pname,
-                mychoices: JSON.stringify(this.mychoices),
+                console.log('mychoices:@@', this.mychoices)
+                let target = this.location_prefix + `/users/cart/add`
+                console.log('this is the cart add target:@@', target)
+                fetch(target, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: this.userid,
+                        pid: this.pid,
+                        quantity: 1,
+                        mychoices: this.mychoices,
+                        pname: this.pname,
+                    })
+                }).then(res => res.json())
+                    .then(res => {
+                        console.log(res)
+                        this.$router.push(
+                            {
+                                name: 'cart_success',
+                                query
+                            }
+                        )
+                    })
             }
-
-            console.log('mychoices:@@', this.mychoices)
-            let target = this.location_prefix + `/users/cart/add`
-            console.log('this is the cart add target:@@', target)
-            fetch(target, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: this.userid,
-                    pid: this.pid,
-                    quantity: 1,
-                    mychoices: this.mychoices,
-                    pname:this.pname,
+            else {
+                this.$router.push({
+                    name: 'front_page'
                 })
-            }).then(res => res.json())
-                .then(res => {
-                    console.log(res)
-                    this.$router.push(
-                        {
-                            name: 'cart_success',
-                            query
-                        }
-                    )
-                })
-
+                this.$store.dispatch('modal', 1)
+            }
         },
         reload() {
             this.mychoices = new Map()
@@ -285,6 +294,34 @@ export default {
             this.cur_plus = sum
             this.cur_plus_old = sumold
             this.opt_string = tmp_string
+        },
+        async collect() {
+            if (await verify_token.apply(this, [])) {
+                this.liked = !this.liked
+                if (this.liked) {
+                    let target = this.location_prefix + '/users/collection'
+                    fetch(target, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            uid: this.userid,
+                            pid: this.pid
+                        }),
+                        headers: {
+                            'Content-Type': `application/json`
+                        }
+                    }).then(res => res.json())
+                        .then(res => {
+                            console.log('添加收藏成功！@@')
+                        })
+                }
+
+            }
+            else {
+                this.$router.push({
+                    name: 'front_page'
+                })
+                this.$store.dispatch('modal', 1)
+            }
         }
 
     },
@@ -294,10 +331,11 @@ export default {
         this.reload()
     },
     beforeRouteUpdate(to, from, next) {
-        debugger
+        
         console.log('&&&')
         this.pid = to.query.pid
         this.pname = to.query.pname
+        this.liked=false
         this.reload()
         next()
     }
@@ -479,8 +517,47 @@ export default {
                     // width: 140px;
                     background-color: #b0b0b0;
 
+                    &.liked {
+                        i {
+                            color: #e53935;
+
+                            .shadow {
+                                display: block;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                animation: heartglow 1s ease;
+                            }
+
+                            @keyframes heartglow {
+                                0% {
+                                    -webkit-transform: scale(1) translate(0);
+                                    transform: scale(1) translate(0);
+                                    opacity: 1;
+                                }
+
+                                10% {
+                                    -webkit-transform: scale(1) translate(-30%, -30%);
+                                    transform: scale(1) translate(-30%, -30%);
+                                    opacity: .7;
+                                }
+
+                                100% {
+                                    -webkit-transform: scale(3) translate(-.5%, -.5%);
+                                    transform: scale(3) translate(-.5%, -.5%);
+                                    opacity: 0;
+                                }
+                            }
+                        }
+                    }
+
                     i {
                         margin-right: 5px;
+                        position: relative;
+
+                        .shadow {
+                            display: none;
+                        }
                     }
                 }
 

@@ -8,7 +8,7 @@
 ](https://github.com/hai-27/vue-store/tree/master)
 
 
-> 本项目前后端分离，前端基于Vue仿制[小米商城](www.mi.com) 实现，后端代码已上传至仓库[vue_xiaomi_store_backend](https://github.com/hai-27/store-server)
+> 本项目前后端分离，前端基于Vue仿制[小米商城](www.mi.com) 实现，后端代码已上传至仓库[vue_xiaomi_store_backend](https://github.com/Septemus/vue_xiaomi_store_backend)
 
 > 项目通过腾讯云部署到了 [http://123.207.79.116/](http://123.207.79.116/) （移动端和桌面端都已适配），欢迎大家访问！
 
@@ -41,7 +41,7 @@
 
 前端页面根据功能主要分为主页，商品详情，购物车，个人中心。
 
-## 运行项目
+## 运行说明
 
 ```
 1. Clone project

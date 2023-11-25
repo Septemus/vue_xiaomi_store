@@ -1,4 +1,4 @@
-import 'babel-polyfill' 
+import "@babel/polyfill" 
 // import Es6Promise from 'es6-promise'
 import Vconsole from 'vconsole'
 new Vconsole()

@@ -11,6 +11,11 @@ module.exports = {
       ecmaVersion: 6,
       sourceType: "module",
     },
+    rules:{
+      "no-debugger":0,
+      "no-dupe-keys":0,
+      "no-unused-vars":0
+    },
     plugins: ['import']
-  };
+};
   

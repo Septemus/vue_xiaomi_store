@@ -36,7 +36,7 @@
             <img class="Bhover" src="../assets/images/692a6c3b0a93a24f74a29c0f9d68ec71.png">
             购物车
         </router-link>
-        <a href="javascript:void(0);" class="bc2top" v-show="$store.state.bc2top_show">
+        <a href="javascript:void(0);" class="bc2top" v-show="$store.state.bc2top_show" @click="bc2top_click">
             <img class="static" src="../assets/images/totop.png">
             <img class="Bhover" src="../assets/images/totop_hover.png">
             回到顶部
@@ -44,8 +44,11 @@
     </div>
 </template>
 <script>
+import bc2top_click_m from '@/assets/js/bc2top_click_func.js'
+
 export default {
-    name: 'side_panel'
+    name: 'side_panel',
+    mixins:[bc2top_click_m]
 }
 </script>
 <style lang="less">

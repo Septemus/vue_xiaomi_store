@@ -44,7 +44,7 @@
                 退出账号
               </b-nav-item>
             </template>
-            <b-nav-item href="javascript:void(0);" class="bc2top" v-show="$store.state.bc2top_show">回到顶部</b-nav-item>
+            <b-nav-item href="javascript:void(0);" class="bc2top" v-show="$store.state.bc2top_show" @click="bc2top_click">回到顶部</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import bc2top_click_m from '@/assets/js/bc2top_click_func.js'
+
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'mobile_side_panel',
@@ -74,7 +76,8 @@ export default {
         name: 'front_page'
       })
     }
-  }
+  },
+  mixins:[bc2top_click_m]
 }
 </script>
 

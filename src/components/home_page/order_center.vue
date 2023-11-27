@@ -176,7 +176,7 @@ export default {
 
                 .right {
                     display: flex;
-                    align-items: end;
+                    align-items: flex-end;
 
                     .order_total {
                         width: 100%;
@@ -222,7 +222,7 @@ export default {
 
                 .right {
                     display: flex;
-                    justify-content: end;
+                    justify-content: flex-end;
 
                     button {
                         display: block;

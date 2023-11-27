@@ -9,7 +9,7 @@
             <div class="d-inline-block float-end">
                 <div class=" right_tabs">
                     <a href="javascript:void(0);" v-for="r_tab, index of gitem_list.right_tabs"
-                        :class="{ 'a_selected': cur_disp === index && r_tab.type === 1 }" @mouseover="cur_disp = index">
+                        :class="{ 'a_selected': cur_disp === index && r_tab.type === 1 }" @mouseover="cur_disp = index" :key="index">
                         <!-- &nbsp; -->
                         {{ r_tab.content }}
                         <i class="fa fa-angle-right" v-if="r_tab.type === 0"></i>
@@ -19,7 +19,7 @@
             </div>
 
         </div>
-        <div class="grid_container" v-for="gitem_list_group, index of gitem_list.arr" v-show="cur_disp === index">
+        <div class="grid_container" v-for="gitem_list_group, index of gitem_list.arr" v-show="cur_disp === index" :key="index">
             <!-- <vue_gitem v-for="item of phone" :gitem_list_item="item">
             </vue_gitem> -->
             <router-link class="gitem left_banner" href="" :class="{ 'half_left_banner': gitem_list.banner.length === 2 }"
@@ -54,7 +54,7 @@
                         pid: gitem_list_item.id,
                         pname: gitem_list_item.name
                     }
-                }" v-if="!gitem_list_item.halfs">
+                }" v-if="!gitem_list_item.halfs" :key="gitem_list_item.id">
                     <div class="gitem_card">
                         <img :src="$store.state.location_prefix + gitem_list_item.img_path">
                         <h6>{{ gitem_list_item.name }}</h6>
@@ -66,14 +66,14 @@
                 </router-link>
 
 
-                <div class="last_icon" v-else>
+                <div class="last_icon" v-else :key="gitem_list_item.id+'yyy'">
                     <router-link class="last_icon_half" v-for="h of gitem_list_item.halfs" :to="{
                         name: 'product',
                         query: {
                             pid: h.id,
                             pname: h.name
                         }
-                    }">
+                    }" :key="h.id">
                         <img :src="$store.state.location_prefix + h.img_path" v-if="h.img_path">
 
                         <p>{{ h.name }}</p>
@@ -86,16 +86,7 @@
                         </p>
 
                     </router-link>
-                    <!-- <div class="last_icon_half" v-if="gitem_list_item.halfs[1]">
-                        <p v-html="gitem_list_item.halfs[1].p1"></p>
-                        <p v-if="gitem_list_item.halfs[1].p2" v-html="gitem_list_item.halfs[1].p2"></p>
-                        <i v-if=    "gitem_list_item.halfs[1].i_class" class="fa" :class="gitem_list_item.halfs[1].i_class">
-                        </i>
-                    </div> -->
                 </div>
-                <!-- <a class="gitem left_banner half_left_banner" href="" v-else-if="gitem_list_item.type === 3">
-                    <img :src="gitem_list_item.path">
-                </a> -->
             </template>
         </div>
     </div>
@@ -112,6 +103,9 @@ export default {
         len() {
             return this.gitem_list.arr.length
         }
+    },
+    mounted() {
+        // console.log('gitem_list:@@',this.gitem_list)
     }
 }
 </script>

@@ -49,7 +49,7 @@
                     </div>
                     <hr>
                     <div class="options">
-                        <option_box v-for="opt of options" :opt="opt" @choose="getChoice"></option_box>
+                        <option_box v-for="opt of options" :opt="opt" @choose="getChoice" :key="opt.oid"></option_box>
                     </div>
                     <div class="summary">
                         <span class="d-inline-block w-75">{{ this.pname ? this.pname : this.$route.query.pname }}

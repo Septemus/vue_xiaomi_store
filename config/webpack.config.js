@@ -47,7 +47,7 @@ module.exports = {
     chunkFilename: isProduction
       ? "static/js/[name].[contenthash:10].chunk.js"
       : "static/js/[name].chunk.js",
-    assetModuleFilename: "static/js/[hash:10][ext][query]",
+    assetModuleFilename: "static/media/[hash:10][ext][query]",
     clean: true,
   },
   module: {

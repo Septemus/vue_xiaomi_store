@@ -13,6 +13,11 @@ import cart_calc from '../pages/cart_calc.vue'
 import cart_calc_part1 from '@/components/cart_calc/cart_calc_part1.vue'
 import cart_calc_part2 from '@/components/cart_calc/cart_calc_part2.vue'
 import cart_calc_part3 from '@/components/cart_calc/cart_calc_part3.vue'
+const originalPush = VueRouter.prototype.push
+
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 //引入组件
 let ret=new VueRouter({

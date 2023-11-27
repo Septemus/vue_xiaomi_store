@@ -4,7 +4,7 @@
             <div class="home-banner-box">
                 <a href="javascript:;"><img :src="$store.state.location_prefix + '/images/banner/b1.png'"></a>
             </div>
-            <panel v-for="panel_list, index of panel_lists" v-if="fetched_panel_lists" :gitem_list="panel_list">
+            <panel v-for="panel_list, index of panel_lists" v-if="fetched_panel_lists" :gitem_list="panel_list" :key="index">
                 
 
             </panel>

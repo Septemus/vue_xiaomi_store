@@ -102,7 +102,7 @@ const mutations = {
 const state = {
 	// sum:0 //当前的和
 	bc2top_show: false,
-	location_prefix: 'http://123.207.79.116:3000',
+	location_prefix: 'http://122.51.116.11:3000',
 	opts_choosen: new Map(),
 	modal: 0,
 	username: null,
